@@ -1,5 +1,5 @@
 // Estado global da aplicação — Aula 2: Context + useReducer.
-// Mantém: lista de receitas em exibição, favoritas, filtros e status da requisição.
+// Mantém: lista de receitas em exibição, favoritas, salvas, filtros e status da requisição.
 
 import { createContext, useContext, useReducer, type ReactNode } from 'react';
 import type {
@@ -14,7 +14,8 @@ import { FILTROS_INICIAIS } from './types';
 interface Estado {
   receitas: ReceitaResumo[];
   receitaAtual: Receita | null;
-  favoritas: ReceitaResumo[];
+  favoritas: ReceitaResumo[];   // receitas que o usuário ama
+  salvas: ReceitaResumo[];      // receitas que o usuário quer ler depois
   filtros: FiltrosBusca;
   status: StatusRequisicao;
   erro: string | null;
@@ -27,6 +28,8 @@ type Action =
   | { type: 'DETALHE_CARREGADO'; payload: Receita }
   | { type: 'FAVORITA_ADICIONADA'; payload: ReceitaResumo }
   | { type: 'FAVORITA_REMOVIDA'; payload: number } // id
+  | { type: 'SALVA_ADICIONADA'; payload: ReceitaResumo }
+  | { type: 'SALVA_REMOVIDA'; payload: number } // id
   | { type: 'FILTRO_TERMO_ALTERADO'; payload: string }
   | { type: 'INGREDIENTE_ADICIONADO'; payload: string }
   | { type: 'INGREDIENTE_REMOVIDO'; payload: string }
@@ -41,6 +44,7 @@ const estadoInicial: Estado = {
   receitas: [],
   receitaAtual: null,
   favoritas: [],
+  salvas: [],
   filtros: FILTROS_INICIAIS,
   status: 'idle',
   erro: null,
@@ -74,6 +78,16 @@ function receitasReducer(state: Estado, action: Action): Estado {
       return {
         ...state,
         favoritas: state.favoritas.filter((f) => f.id !== action.payload),
+      };
+
+    case 'SALVA_ADICIONADA':
+      if (state.salvas.some((s) => s.id === action.payload.id)) return state;
+      return { ...state, salvas: [...state.salvas, action.payload] };
+
+    case 'SALVA_REMOVIDA':
+      return {
+        ...state,
+        salvas: state.salvas.filter((s) => s.id !== action.payload),
       };
 
     case 'FILTRO_TERMO_ALTERADO':

@@ -26,6 +26,12 @@ export const router = createBrowserRouter([
         }),
       },
       {
+        path: 'salvas',
+        lazy: async () => ({
+          Component: (await import('./pages/Salvas')).default,
+        }),
+      },
+      {
         path: 'busca',
         lazy: async () => ({ Component: (await import('./pages/Search')).default }),
       },
