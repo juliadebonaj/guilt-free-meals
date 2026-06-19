@@ -5,8 +5,15 @@
 import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useLocalStorage } from '../useLocalStorage';
+
+interface Sessao {
+  logado: boolean;
+  email: string;
+}
 
 export default function Header() {
+  const [sessao, setSessao] = useLocalStorage<Sessao | null>('guilt-free-sessao', null);
   const [menuAberto, setMenuAberto] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -37,6 +44,12 @@ export default function Header() {
     navigate(rota);
   };
 
+  const sair = () => {
+    setSessao(null);
+    setMenuAberto(false);
+    navigate('/login');
+  };
+
   return (
     <Topo>
       <Logo to="/">Guilt Free</Logo>
@@ -60,6 +73,12 @@ export default function Header() {
 
           {menuAberto && (
             <Dropdown role="menu">
+              {sessao?.email && (
+                <>
+                  <EmailUsuario>{sessao.email}</EmailUsuario>
+                  <Divisor />
+                </>
+              )}
               <ItemDropdown role="menuitem" onClick={() => irPara('/favoritas')}>
                 Favoritas
               </ItemDropdown>
@@ -67,7 +86,7 @@ export default function Header() {
                 Salvas
               </ItemDropdown>
               <Divisor />
-              <ItemDropdown role="menuitem" onClick={() => setMenuAberto(false)}>
+              <ItemDropdown role="menuitem" onClick={sair}>
                 Sair
               </ItemDropdown>
             </Dropdown>
@@ -214,6 +233,18 @@ const ItemDropdown = styled.button`
     background: ${({ theme }) => theme.cores.cream[100]};
     color: ${({ theme }) => theme.cores.sage[900]};
   }
+`;
+
+const EmailUsuario = styled.span`
+  display: block;
+  font-family: ${({ theme }) => theme.fontes.corpo};
+  font-size: ${({ theme }) => theme.tamanhosFonte.xs};
+  color: ${({ theme }) => theme.cores.texto.muted};
+  padding: ${({ theme }) => theme.espacos.sm} ${({ theme }) => theme.espacos.lg};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
 `;
 
 const Divisor = styled.hr`
