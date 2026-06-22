@@ -1,18 +1,13 @@
 // Painel de filtros — vai dentro do <Drawer>.
 // Tem: input de ingredientes (com chips removíveis), checkboxes de dieta e intolerâncias,
-// botões "Limpar" e "Aplicar".
+// e um botão "Limpar". Cada toggle dispara busca automaticamente via efeito em Search.tsx.
 
 import styled from '@emotion/styled';
 import { useState, type FormEvent } from 'react';
 import { useReceitas } from '../ReceitasContext';
 import { DIETAS, INTOLERANCIAS, CUISINES, MEAL_TYPES } from '../types';
-import Button from './Button';
 
-interface Props {
-  onAplicar: () => void;
-}
-
-export default function FiltrosPanel({ onAplicar }: Props) {
+export default function FiltrosPanel() {
   const { state, dispatch } = useReceitas();
   const { filtros } = state;
   const [novoIngrediente, setNovoIngrediente] = useState('');
@@ -25,8 +20,60 @@ export default function FiltrosPanel({ onAplicar }: Props) {
     setNovoIngrediente('');
   };
 
+  const totalAtivos =
+    filtros.ingredientes.length +
+    filtros.dietas.length +
+    filtros.intolerancias.length +
+    filtros.cuisines.length +
+    filtros.mealTypes.length;
+
+  // Lista de rótulos (em português) de todos os filtros ativos.
+  // Ingredientes são strings livres digitadas pelo usuário, os outros têm rótulos
+  // pré-definidos nas constantes em types.ts.
+  const rotulosAtivos: string[] = [
+    ...filtros.ingredientes,
+    ...filtros.dietas.map(
+      (v) => DIETAS.find((d) => d.valor === v)?.rotulo ?? v
+    ),
+    ...filtros.intolerancias.map(
+      (v) => INTOLERANCIAS.find((i) => i.valor === v)?.rotulo ?? v
+    ),
+    ...filtros.cuisines.map(
+      (v) => CUISINES.find((c) => c.valor === v)?.rotulo ?? v
+    ),
+    ...filtros.mealTypes.map(
+      (v) => MEAL_TYPES.find((m) => m.valor === v)?.rotulo ?? v
+    ),
+  ];
+
+  const resumoFiltros =
+    rotulosAtivos.length === 0
+      ? 'Nenhum filtro ativo'
+      : rotulosAtivos.length <= 2
+      ? rotulosAtivos.join(', ')
+      : `${rotulosAtivos.slice(0, 2).join(', ')}, ...`;
+
   return (
     <Container>
+      {/* --- Topo: contagem + limpar --- */}
+      <Topo>
+        <TopoTexto>
+          <Contagem>{resumoFiltros}</Contagem>
+          {totalAtivos > 0 && (
+            <ContagemNum>
+              {totalAtivos === 1 ? '1 filtro ativo' : `${totalAtivos} filtros ativos`}
+            </ContagemNum>
+          )}
+        </TopoTexto>
+        <LimparBtn
+          type="button"
+          onClick={() => dispatch({ type: 'FILTROS_LIMPOS' })}
+          disabled={totalAtivos === 0}
+        >
+          Limpar tudo
+        </LimparBtn>
+      </Topo>
+
       {/* --- Ingredientes --- */}
       <Secao>
         <Legenda>Ingredientes</Legenda>
@@ -36,9 +83,8 @@ export default function FiltrosPanel({ onAplicar }: Props) {
             placeholder="ex: tomate, frango..."
             value={novoIngrediente}
             onChange={(e) => setNovoIngrediente(e.target.value)}
-            aria-label="Adicionar ingrediente"
           />
-          <BotaoAdd type="submit" aria-label="Adicionar">+</BotaoAdd>
+          <BotaoAdd type="submit">+</BotaoAdd>
         </FormIngrediente>
 
         {filtros.ingredientes.length > 0 && (
@@ -51,7 +97,6 @@ export default function FiltrosPanel({ onAplicar }: Props) {
                   onClick={() =>
                     dispatch({ type: 'INGREDIENTE_REMOVIDO', payload: ing })
                   }
-                  aria-label={`Remover ${ing}`}
                 >
                   ×
                 </RemoverBtn>
@@ -142,20 +187,6 @@ export default function FiltrosPanel({ onAplicar }: Props) {
           ))}
         </ChipsGrid>
       </Secao>
-
-      {/* --- Ações --- */}
-      <Acoes>
-        <Button
-          variante="fantasma"
-          type="button"
-          onClick={() => dispatch({ type: 'FILTROS_LIMPOS' })}
-        >
-          Limpar
-        </Button>
-        <Button variante="primario" type="button" onClick={onAplicar}>
-          Aplicar
-        </Button>
-      </Acoes>
     </Container>
   );
 }
@@ -299,13 +330,59 @@ const RemoverBtn = styled.button`
   }
 `;
 
-const Acoes = styled.div`
+const Topo = styled.div`
   display: flex;
-  gap: ${({ theme }) => theme.espacos.sm};
-  padding-top: ${({ theme }) => theme.espacos.lg};
-  border-top: 1px solid ${({ theme }) => theme.cores.borda};
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.espacos.md};
+  padding-bottom: ${({ theme }) => theme.espacos.md};
+  border-bottom: 1px solid ${({ theme }) => theme.cores.borda};
+`;
 
-  button {
-    flex: 1;
+const TopoTexto = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+`;
+
+const Contagem = styled.span`
+  font-family: ${({ theme }) => theme.fontes.corpo};
+  font-size: ${({ theme }) => theme.tamanhosFonte.sm};
+  color: ${({ theme }) => theme.cores.texto.primario};
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const ContagemNum = styled.span`
+  font-family: ${({ theme }) => theme.fontes.corpo};
+  font-size: ${({ theme }) => theme.tamanhosFonte.xs};
+  color: ${({ theme }) => theme.cores.texto.muted};
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+`;
+
+const LimparBtn = styled.button`
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: ${({ theme }) => theme.fontes.corpo};
+  font-size: ${({ theme }) => theme.tamanhosFonte.sm};
+  color: ${({ theme }) => theme.cores.sage[900]};
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, opacity 0.2s;
+
+  &:hover:not(:disabled) {
+    color: ${({ theme }) => theme.cores.estados.erro};
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 `;

@@ -1,24 +1,23 @@
-// TODO: ler state.favoritas do contexto, renderizar grid de CardReceita.
 import { useReceitas } from '../ReceitasContext';
 import CardReceita from '../components/CardReceita';
 import styled from '@emotion/styled';
 
-export default function Favorites() {
+export default function Salvas() {
   const { state } = useReceitas();
 
-  if (state.favoritas.length === 0) {
-    return <Vazio>Você ainda não favoritou nenhuma receita.</Vazio>;
+  if (state.salvas.length === 0) {
+    return <Vazio>Você ainda não salvou nenhuma receita para depois.</Vazio>;
   }
 
   return (
     <Wrapper>
       <Cabecalho>
-        <Rotulo>Colher de ouro</Rotulo>
-        <Titulo>suas receitas <em>favoritas</em></Titulo>
+        <Rotulo>Salvas</Rotulo>
+        <Titulo><em>para</em> mais tarde</Titulo>
       </Cabecalho>
 
       <Grid>
-        {state.favoritas.map((r) => (
+        {state.salvas.map((r) => (
           <CardReceita key={r.id} receita={r} />
         ))}
       </Grid>
@@ -43,7 +42,7 @@ const Rotulo = styled.span`
   font-size: ${({ theme }) => theme.tamanhosFonte.sm};
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: #C9A961;
+  color: ${({ theme }) => theme.cores.sage[900]};
   margin-bottom: ${({ theme }) => theme.espacos.sm};
 `;
 
@@ -55,7 +54,7 @@ const Titulo = styled.h1`
 
   em {
     font-style: italic;
-    color: #C9A961;
+    color: ${({ theme }) => theme.cores.sage[900]};
   }
 
   ${({ theme }) => theme.media.tablet} {

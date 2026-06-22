@@ -7,7 +7,7 @@ const girar = keyframes`
 
 export default function Spinner() {
   return (
-    <Container role="status" aria-label="Carregando">
+    <Container role="status">
       <Circulo />
     </Container>
   );

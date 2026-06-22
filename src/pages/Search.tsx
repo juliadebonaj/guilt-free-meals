@@ -31,14 +31,7 @@ export default function Search() {
     filtros.cuisines.length +
     filtros.mealTypes.length;
 
-  // Busca quando muda o termo (debounce) OU quando o usuário aperta "Aplicar".
-  // O `gatilhoAplicar` incrementa pra forçar re-execução do effect.
-  const [gatilhoAplicar, setGatilhoAplicar] = useState(0);
-
   useEffect(() => {
-    // Não busca se nada foi digitado nem filtrado
-    if (!termoDebounced && filtrosAtivos === 0) return;
-
     let cancelado = false;
     dispatch({ type: 'BUSCA_INICIADA' });
 
@@ -70,12 +63,14 @@ export default function Search() {
       cancelado = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [termoDebounced, gatilhoAplicar]);
-
-  const aplicarFiltros = () => {
-    setGatilhoAplicar((n) => n + 1);
-    setDrawerAberto(false);
-  };
+  }, [
+    termoDebounced,
+    filtros.ingredientes,
+    filtros.dietas,
+    filtros.intolerancias,
+    filtros.cuisines,
+    filtros.mealTypes,
+  ]);
 
   return (
     <Wrapper>
@@ -87,12 +82,10 @@ export default function Search() {
           onChange={(e) =>
             dispatch({ type: 'FILTRO_TERMO_ALTERADO', payload: e.target.value })
           }
-          aria-label="Buscar receita"
         />
         <BotaoFunil
           type="button"
           onClick={() => setDrawerAberto(true)}
-          aria-label="Abrir filtros"
         >
           <IconeFunil />
           <span>Filtros</span>
@@ -134,7 +127,7 @@ export default function Search() {
         onFechar={() => setDrawerAberto(false)}
         titulo="Filtros"
       >
-        <FiltrosPanel onAplicar={aplicarFiltros} />
+        <FiltrosPanel />
       </Drawer>
     </Wrapper>
   );
@@ -152,7 +145,6 @@ function IconeFunil() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      aria-hidden="true"
     >
       <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
     </svg>
