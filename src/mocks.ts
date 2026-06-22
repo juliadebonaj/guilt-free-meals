@@ -17,14 +17,14 @@ export interface ReceitaMock extends ReceitaResumo {
 export const RECEITAS_DESTAQUE: ReceitaMock[] = [
   {
     id: 1001,
-    titulo: 'Bowl de Quinoa com Abacate',
+    titulo: 'Quinoa Bowl with Avocado',
     imagemUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
     tempoPreparoMin: 25,
     porcoes: 2,
     categorias: ['vegan', 'gluten free'],
     resumo:
-      'Um bowl colorido e nutritivo, perfeito para o almoço. Combina quinoa, abacate cremoso, grão-de-bico e folhas frescas com um molho leve de limão.',
-    ingredientesPreview: ['quinoa', 'abacate', 'grão-de-bico', 'rúcula', 'limão'],
+      'A colorful and nutritious bowl, perfect for lunch. Combines quinoa, creamy avocado, chickpeas and fresh greens with a light lemon dressing.',
+    ingredientesPreview: ['quinoa', 'avocado', 'chickpeas', 'arugula', 'lemon'],
     cuisine: 'mediterranean',
     mealType: 'main course',
     dietas: ['vegan', 'vegetarian', 'gluten free', 'lacto-vegetarian', 'ovo-vegetarian'],
@@ -32,14 +32,14 @@ export const RECEITAS_DESTAQUE: ReceitaMock[] = [
   },
   {
     id: 1002,
-    titulo: 'Salmão Grelhado com Aspargos',
+    titulo: 'Grilled Salmon with Asparagus',
     imagemUrl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80',
     tempoPreparoMin: 20,
     porcoes: 2,
     categorias: ['pescetarian', 'low carb'],
     resumo:
-      'Salmão suculento grelhado na manteiga de ervas, acompanhado de aspargos crocantes. Receita rápida, elegante e cheia de sabor.',
-    ingredientesPreview: ['salmão', 'aspargos', 'manteiga', 'alho', 'limão', 'tomilho'],
+      'Succulent salmon grilled in herbed butter, accompanied by crispy asparagus. A quick, elegant, flavorful recipe.',
+    ingredientesPreview: ['salmon', 'asparagus', 'butter', 'garlic', 'lemon', 'thyme'],
     cuisine: 'french',
     mealType: 'main course',
     dietas: ['pescetarian', 'gluten free', 'ketogenic', 'paleo', 'primal'],
@@ -47,14 +47,14 @@ export const RECEITAS_DESTAQUE: ReceitaMock[] = [
   },
   {
     id: 1003,
-    titulo: 'Panquecas de Banana e Aveia',
+    titulo: 'Banana and Oat Pancakes',
     imagemUrl: 'https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=800&q=80',
     tempoPreparoMin: 15,
     porcoes: 3,
     categorias: ['vegetarian', 'breakfast'],
     resumo:
-      'Café da manhã saudável e fofinho, sem farinha refinada. Naturalmente doce com banana e adoçado apenas com mel.',
-    ingredientesPreview: ['banana', 'aveia', 'ovo', 'leite', 'canela'],
+      'Healthy and fluffy breakfast, no refined flour. Naturally sweet with banana and sweetened only with honey.',
+    ingredientesPreview: ['banana', 'oats', 'egg', 'milk', 'cinnamon'],
     cuisine: 'american',
     mealType: 'breakfast',
     dietas: ['vegetarian', 'lacto-vegetarian', 'ovo-vegetarian'],
@@ -62,14 +62,14 @@ export const RECEITAS_DESTAQUE: ReceitaMock[] = [
   },
   {
     id: 1004,
-    titulo: 'Salada Caprese com Pesto',
+    titulo: 'Caprese Salad with Pesto',
     imagemUrl: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=800&q=80',
     tempoPreparoMin: 10,
     porcoes: 2,
     categorias: ['vegetarian', 'italian'],
     resumo:
-      'Clássico italiano em sua forma mais simples e elegante: tomate maduro, mussarela de búfala, manjericão fresco e um toque de pesto caseiro.',
-    ingredientesPreview: ['tomate', 'mussarela', 'manjericão', 'pesto', 'azeite'],
+      'Italian classic in its simplest, most elegant form: ripe tomato, buffalo mozzarella, fresh basil and a touch of homemade pesto.',
+    ingredientesPreview: ['tomato', 'mozzarella', 'basil', 'pesto', 'olive oil'],
     cuisine: 'italian',
     mealType: 'salad',
     dietas: ['vegetarian', 'gluten free', 'lacto-vegetarian', 'primal'],
@@ -77,14 +77,14 @@ export const RECEITAS_DESTAQUE: ReceitaMock[] = [
   },
   {
     id: 1005,
-    titulo: 'Curry Tailandês de Legumes',
+    titulo: 'Thai Vegetable Curry',
     imagemUrl: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&q=80',
     tempoPreparoMin: 35,
     porcoes: 4,
     categorias: ['vegan', 'thai'],
     resumo:
-      'Curry vermelho cremoso com leite de coco, abóbora, pimentão e brócolis. Aromático, picante na medida e reconfortante.',
-    ingredientesPreview: ['leite de coco', 'curry', 'abóbora', 'brócolis', 'gengibre'],
+      'Creamy red curry with coconut milk, squash, bell pepper and broccoli. Aromatic, perfectly spiced and comforting.',
+    ingredientesPreview: ['coconut milk', 'curry', 'squash', 'broccoli', 'ginger'],
     cuisine: 'thai',
     mealType: 'main course',
     dietas: ['vegan', 'vegetarian', 'gluten free', 'lacto-vegetarian', 'ovo-vegetarian'],
@@ -92,14 +92,14 @@ export const RECEITAS_DESTAQUE: ReceitaMock[] = [
   },
   {
     id: 1006,
-    titulo: 'Tigela de Açaí com Frutas',
+    titulo: 'Acai Bowl with Fruits',
     imagemUrl: 'https://images.unsplash.com/photo-1494597564530-871f2b93ac55?w=800&q=80',
     tempoPreparoMin: 8,
     porcoes: 1,
     categorias: ['vegan', 'breakfast'],
     resumo:
-      'Açaí cremoso coberto com banana, morango, granola e um fio de mel. Lanche fresco e energético para qualquer hora do dia.',
-    ingredientesPreview: ['açaí', 'banana', 'morango', 'granola', 'mel'],
+      'Creamy acai topped with banana, strawberry, granola and a drizzle of honey. A fresh and energetic snack for any time of day.',
+    ingredientesPreview: ['acai', 'banana', 'strawberry', 'granola', 'honey'],
     cuisine: 'latin american',
     mealType: 'breakfast',
     dietas: ['vegetarian', 'lacto-vegetarian', 'ovo-vegetarian', 'vegan'],
@@ -161,6 +161,109 @@ export function filtrarMocks(filtros: FiltrosBusca): ReceitaMock[] {
   });
 }
 
+/**
+ * Filtro genérico para qualquer ReceitaResumo[] — usado no pool da API.
+ * Lê os campos diretos (`dietas`, `cuisines`, `mealTypes`, `dairyFree`)
+ * que o mapeador da Spoonacular preenche a partir das flags booleanas.
+ *
+ * Estratégia:
+ *   - termo, ingredientes: match no início das palavras
+ *   - dietas: AND nas dietas selecionadas (receita precisa ter todas)
+ *   - cuisines: bate exato (radio) com r.cuisines, OU com r.categorias como fallback
+ *   - mealTypes: bate exato (radio) com r.mealTypes
+ *   - intolerâncias: exclui se o pool indica presença (ex: dairy via flag,
+ *     ou via palavras-chave nos ingredientesPreview)
+ */
+// Mapeamento de intolerância → palavras-chave em inglês.
+const INTOLERANCIA_KEYWORDS: Record<string, string[]> = {
+  dairy:     ['milk', 'butter', 'cheese', 'cream', 'yogurt', 'ghee', 'mozzarella', 'parmesan', 'ricotta'],
+  egg:       ['egg', 'mayonnaise'],
+  gluten:    ['wheat', 'flour', 'bread', 'pasta', 'noodle', 'barley', 'rye'],
+  grain:     ['oat', 'wheat', 'rice', 'barley', 'rye', 'corn', 'quinoa', 'flour'],
+  peanut:    ['peanut'],
+  seafood:   ['fish', 'salmon', 'tuna', 'shrimp', 'shellfish', 'crab', 'lobster', 'cod', 'tilapia', 'anchovy'],
+  sesame:    ['sesame', 'tahini'],
+  shellfish: ['shrimp', 'crab', 'lobster', 'clam', 'oyster', 'mussel', 'scallop'],
+  soy:       ['soy', 'tofu', 'tempeh', 'edamame', 'tamari'],
+  sulfite:   ['wine', 'vinegar'],
+  'tree nut':['almond', 'walnut', 'cashew', 'pistachio', 'pecan', 'hazelnut', 'macadamia', 'brazil nut'],
+  wheat:     ['wheat', 'flour', 'bread', 'pasta', 'noodle'],
+};
+
+export function filtrarPool(
+  pool: ReceitaResumo[],
+  filtros: FiltrosBusca
+): ReceitaResumo[] {
+  return pool.filter((r) => {
+    if (filtros.termo) {
+      const t = filtros.termo.toLowerCase();
+      const palavras = r.titulo.toLowerCase().split(/\s+/);
+      if (!palavras.some((p) => p.startsWith(t))) return false;
+    }
+
+    const previewLower = r.ingredientesPreview.map((i) => i.toLowerCase());
+
+    if (filtros.ingredientes.length > 0) {
+      const todos = filtros.ingredientes.every((ing) => {
+        const alvo = ing.toLowerCase();
+        return previewLower.some((p) =>
+          p.split(/\s+/).some((parte) => parte.startsWith(alvo))
+        );
+      });
+      if (!todos) return false;
+    }
+
+    // Dietas: AND — receita precisa ter TODAS as dietas selecionadas
+    if (filtros.dietas.length > 0) {
+      const dietasReceita = (r.dietas ?? []).map((d) => d.toLowerCase());
+      const ok = filtros.dietas.every((d) =>
+        dietasReceita.includes(d.toLowerCase())
+      );
+      if (!ok) return false;
+    }
+
+    // Cuisine: bate em r.cuisines (campo direto) ou em categorias (fallback p/ mocks)
+    if (filtros.cuisines.length > 0) {
+      const alvo = filtros.cuisines[0].toLowerCase();
+      const cuisinesReceita = (r.cuisines ?? []).map((c) => c.toLowerCase());
+      const categoriasReceita = r.categorias.map((c) => c.toLowerCase());
+      if (!cuisinesReceita.includes(alvo) && !categoriasReceita.includes(alvo)) {
+        return false;
+      }
+    }
+
+    // Meal type: bate em r.mealTypes (campo direto) ou em categorias (fallback)
+    if (filtros.mealTypes.length > 0) {
+      const alvo = filtros.mealTypes[0].toLowerCase();
+      const mealsReceita = (r.mealTypes ?? []).map((m) => m.toLowerCase());
+      const categoriasReceita = r.categorias.map((c) => c.toLowerCase());
+      if (!mealsReceita.includes(alvo) && !categoriasReceita.includes(alvo)) {
+        return false;
+      }
+    }
+
+    // Intolerâncias: exclui se receita contém qualquer um dos proibidos.
+    // Para "dairy" e "gluten" usamos as flags booleanas da API quando disponíveis
+    // (mais confiáveis que keywords). Para as demais, heurística via palavras-chave.
+    if (filtros.intolerancias.length > 0) {
+      const temProibido = filtros.intolerancias.some((int) => {
+        const intLower = int.toLowerCase();
+        // Flags diretas da API têm precedência
+        if (intLower === 'dairy' && r.dairyFree === true) return false;
+        if (intLower === 'gluten' && r.glutenFree === true) return false;
+        // Heurística: detectar a palavra-chave nos primeiros ingredientes
+        const keywords = INTOLERANCIA_KEYWORDS[intLower] ?? [];
+        return previewLower.some((p) =>
+          keywords.some((kw) => p.includes(kw))
+        );
+      });
+      if (temProibido) return false;
+    }
+
+    return true;
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Receitas completas (com ingredientes + passos) — usadas na página de detalhes
 // quando não estamos consumindo a API. Mantemos um map por id pra busca O(1).
@@ -169,161 +272,161 @@ export function filtrarMocks(filtros: FiltrosBusca): ReceitaMock[] {
 export const RECEITAS_COMPLETAS: Record<number, Receita> = {
   1001: {
     id: 1001,
-    titulo: 'Bowl de Quinoa com Abacate',
+    titulo: 'Quinoa Bowl with Avocado',
     imagemUrl: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
     tempoPreparoMin: 25,
     porcoes: 2,
     resumo:
-      'Um bowl colorido e nutritivo, perfeito para o almoço. Combina quinoa, abacate cremoso, grão-de-bico e folhas frescas com um molho leve de limão e azeite. Cheio de proteína vegetal, fibras e gorduras boas.',
+      'A colorful and nutritious bowl, perfect for lunch. Combines quinoa, creamy avocado, chickpeas and fresh greens with a light lemon and olive oil dressing. Full of plant protein, fiber and healthy fats.',
     categorias: ['vegan', 'gluten free', 'mediterranean'],
     ingredientes: [
-      { id: 1, nome: 'quinoa', quantidade: 1, unidade: 'xícara' },
-      { id: 2, nome: 'abacate', quantidade: 1, unidade: 'unidade' },
-      { id: 3, nome: 'grão-de-bico cozido', quantidade: 1, unidade: 'xícara' },
-      { id: 4, nome: 'rúcula', quantidade: 2, unidade: 'punhados' },
-      { id: 5, nome: 'tomate-cereja', quantidade: 10, unidade: 'unidades' },
-      { id: 6, nome: 'limão', quantidade: 1, unidade: 'unidade' },
-      { id: 7, nome: 'azeite extra virgem', quantidade: 2, unidade: 'colheres de sopa' },
-      { id: 8, nome: 'sal e pimenta', quantidade: 0, unidade: 'a gosto' },
+      { id: 1, nome: 'quinoa', quantidade: 1, unidade: 'cup' },
+      { id: 2, nome: 'avocado', quantidade: 1, unidade: 'unit' },
+      { id: 3, nome: 'cooked chickpeas', quantidade: 1, unidade: 'cup' },
+      { id: 4, nome: 'arugula', quantidade: 2, unidade: 'handfuls' },
+      { id: 5, nome: 'cherry tomato', quantidade: 10, unidade: 'units' },
+      { id: 6, nome: 'lemon', quantidade: 1, unidade: 'unit' },
+      { id: 7, nome: 'extra virgin olive oil', quantidade: 2, unidade: 'tablespoons' },
+      { id: 8, nome: 'salt and pepper', quantidade: 0, unidade: 'to taste' },
     ],
     passos: [
-      { numero: 1, descricao: 'Lave a quinoa em água corrente. Cozinhe em 2 xícaras de água com uma pitada de sal por 15 minutos, até a água secar. Reserve e deixe esfriar.' },
-      { numero: 2, descricao: 'Corte o abacate em cubos médios e os tomates-cereja ao meio.' },
-      { numero: 3, descricao: 'Em uma tigela pequena, misture o suco do limão, o azeite, sal e pimenta para fazer o molho.' },
-      { numero: 4, descricao: 'Monte o bowl: comece pela quinoa, adicione a rúcula, o grão-de-bico, o abacate e os tomates por cima.' },
-      { numero: 5, descricao: 'Regue com o molho de limão e sirva imediatamente.' },
+      { numero: 1, descricao: 'Rinse the quinoa under running water. Cook in 2 cups of water with a pinch of salt for 15 minutes, until the water has been absorbed. Set aside and let cool.' },
+      { numero: 2, descricao: 'Cut the avocado into medium cubes and halve the cherry tomatoes.' },
+      { numero: 3, descricao: 'In a small bowl, whisk the lemon juice, olive oil, salt and pepper to make the dressing.' },
+      { numero: 4, descricao: 'Build the bowl: start with the quinoa, then add arugula, chickpeas, avocado and tomatoes on top.' },
+      { numero: 5, descricao: 'Drizzle with the lemon dressing and serve immediately.' },
     ],
   },
   1002: {
     id: 1002,
-    titulo: 'Salmão Grelhado com Aspargos',
+    titulo: 'Grilled Salmon with Asparagus',
     imagemUrl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&q=80',
     tempoPreparoMin: 20,
     porcoes: 2,
     resumo:
-      'Salmão suculento grelhado na manteiga de ervas, acompanhado de aspargos crocantes. Receita rápida, elegante e cheia de sabor — perfeita para um jantar especial em qualquer dia da semana.',
+      'Succulent salmon grilled in herbed butter, accompanied by crispy asparagus. A quick, elegant, flavorful recipe — perfect for a special dinner any day of the week.',
     categorias: ['pescetarian', 'low carb', 'french', 'gluten free'],
     ingredientes: [
-      { id: 10, nome: 'filé de salmão', quantidade: 2, unidade: 'unidades (180g cada)' },
-      { id: 11, nome: 'aspargos frescos', quantidade: 1, unidade: 'maço' },
-      { id: 12, nome: 'manteiga', quantidade: 2, unidade: 'colheres de sopa' },
-      { id: 13, nome: 'alho', quantidade: 2, unidade: 'dentes' },
-      { id: 14, nome: 'limão', quantidade: 1, unidade: 'unidade' },
-      { id: 15, nome: 'tomilho fresco', quantidade: 4, unidade: 'ramos' },
-      { id: 16, nome: 'sal e pimenta', quantidade: 0, unidade: 'a gosto' },
+      { id: 10, nome: 'salmon fillet', quantidade: 2, unidade: 'units (180g each)' },
+      { id: 11, nome: 'fresh asparagus', quantidade: 1, unidade: 'bunch' },
+      { id: 12, nome: 'butter', quantidade: 2, unidade: 'tablespoons' },
+      { id: 13, nome: 'garlic', quantidade: 2, unidade: 'cloves' },
+      { id: 14, nome: 'lemon', quantidade: 1, unidade: 'unit' },
+      { id: 15, nome: 'fresh thyme', quantidade: 4, unidade: 'sprigs' },
+      { id: 16, nome: 'salt and pepper', quantidade: 0, unidade: 'to taste' },
     ],
     passos: [
-      { numero: 1, descricao: 'Tempere os filés de salmão com sal e pimenta dos dois lados. Deixe descansar 5 minutos.' },
-      { numero: 2, descricao: 'Apare a parte mais dura dos aspargos. Lave e seque bem.' },
-      { numero: 3, descricao: 'Em uma frigideira grande, derreta a manteiga em fogo médio-alto. Adicione o alho picado e o tomilho.' },
-      { numero: 4, descricao: 'Coloque o salmão com a pele para baixo. Grelhe por 4 minutos sem mexer, vire e cozinhe por mais 3 minutos.' },
-      { numero: 5, descricao: 'Retire o salmão e, na mesma frigideira, salteie os aspargos por 3-4 minutos até ficarem al dente.' },
-      { numero: 6, descricao: 'Sirva o salmão sobre os aspargos com rodelas de limão.' },
+      { numero: 1, descricao: 'Season the salmon fillets with salt and pepper on both sides. Let rest for 5 minutes.' },
+      { numero: 2, descricao: 'Trim the tough ends of the asparagus. Rinse and pat dry.' },
+      { numero: 3, descricao: 'In a large skillet, melt the butter over medium-high heat. Add the chopped garlic and thyme.' },
+      { numero: 4, descricao: 'Place the salmon skin-side down. Sear for 4 minutes without moving, then flip and cook for 3 more minutes.' },
+      { numero: 5, descricao: 'Remove the salmon and, in the same skillet, sauté the asparagus for 3-4 minutes until al dente.' },
+      { numero: 6, descricao: 'Serve the salmon over the asparagus with lemon wedges.' },
     ],
   },
   1003: {
     id: 1003,
-    titulo: 'Panquecas de Banana e Aveia',
+    titulo: 'Banana and Oat Pancakes',
     imagemUrl: 'https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=800&q=80',
     tempoPreparoMin: 15,
     porcoes: 3,
     resumo:
-      'Café da manhã saudável e fofinho, sem farinha refinada. Naturalmente doce com banana e adoçado apenas com mel. Ideal para começar o dia com energia.',
+      'Healthy and fluffy breakfast, no refined flour. Naturally sweet with banana and sweetened only with honey. The perfect way to start the day with energy.',
     categorias: ['vegetarian', 'breakfast', 'american'],
     ingredientes: [
-      { id: 20, nome: 'banana madura', quantidade: 2, unidade: 'unidades' },
-      { id: 21, nome: 'aveia em flocos', quantidade: 1, unidade: 'xícara' },
-      { id: 22, nome: 'ovo', quantidade: 2, unidade: 'unidades' },
-      { id: 23, nome: 'leite', quantidade: 0.5, unidade: 'xícara' },
-      { id: 24, nome: 'canela em pó', quantidade: 1, unidade: 'colher de chá' },
-      { id: 25, nome: 'mel', quantidade: 1, unidade: 'colher de sopa' },
-      { id: 26, nome: 'fermento em pó', quantidade: 1, unidade: 'colher de chá' },
+      { id: 20, nome: 'ripe banana', quantidade: 2, unidade: 'units' },
+      { id: 21, nome: 'rolled oats', quantidade: 1, unidade: 'cup' },
+      { id: 22, nome: 'egg', quantidade: 2, unidade: 'units' },
+      { id: 23, nome: 'milk', quantidade: 0.5, unidade: 'cup' },
+      { id: 24, nome: 'ground cinnamon', quantidade: 1, unidade: 'teaspoon' },
+      { id: 25, nome: 'honey', quantidade: 1, unidade: 'tablespoon' },
+      { id: 26, nome: 'baking powder', quantidade: 1, unidade: 'teaspoon' },
     ],
     passos: [
-      { numero: 1, descricao: 'No liquidificador, bata as bananas, os ovos, o leite, a aveia e a canela até obter uma massa homogênea.' },
-      { numero: 2, descricao: 'Adicione o fermento e mexa delicadamente com uma colher.' },
-      { numero: 3, descricao: 'Aqueça uma frigideira antiaderente em fogo médio-baixo. Coloque uma concha de massa.' },
-      { numero: 4, descricao: 'Quando aparecerem bolhas na superfície (cerca de 2 minutos), vire a panqueca e cozinhe por mais 1 minuto.' },
-      { numero: 5, descricao: 'Sirva quente com mel, frutas frescas ou iogurte natural por cima.' },
+      { numero: 1, descricao: 'In a blender, blend the bananas, eggs, milk, oats and cinnamon until you get a smooth batter.' },
+      { numero: 2, descricao: 'Add the baking powder and gently fold it in with a spoon.' },
+      { numero: 3, descricao: 'Heat a non-stick skillet over medium-low heat. Pour in one ladleful of batter.' },
+      { numero: 4, descricao: 'When bubbles appear on the surface (about 2 minutes), flip the pancake and cook for 1 more minute.' },
+      { numero: 5, descricao: 'Serve warm with honey, fresh fruit or plain yogurt on top.' },
     ],
   },
   1004: {
     id: 1004,
-    titulo: 'Salada Caprese com Pesto',
+    titulo: 'Caprese Salad with Pesto',
     imagemUrl: 'https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=800&q=80',
     tempoPreparoMin: 10,
     porcoes: 2,
     resumo:
-      'Clássico italiano em sua forma mais simples e elegante: tomate maduro, mussarela de búfala, manjericão fresco e um toque de pesto caseiro. Quando os ingredientes são bons, menos é mais.',
+      'Italian classic in its simplest and most elegant form: ripe tomato, buffalo mozzarella, fresh basil and a touch of homemade pesto. When the ingredients are good, less is more.',
     categorias: ['vegetarian', 'italian', 'gluten free'],
     ingredientes: [
-      { id: 30, nome: 'tomate maduro', quantidade: 2, unidade: 'unidades grandes' },
-      { id: 31, nome: 'mussarela de búfala', quantidade: 200, unidade: 'g' },
-      { id: 32, nome: 'manjericão fresco', quantidade: 1, unidade: 'maço pequeno' },
-      { id: 33, nome: 'pesto', quantidade: 2, unidade: 'colheres de sopa' },
-      { id: 34, nome: 'azeite extra virgem', quantidade: 2, unidade: 'colheres de sopa' },
-      { id: 35, nome: 'flor de sal', quantidade: 0, unidade: 'a gosto' },
-      { id: 36, nome: 'pimenta-do-reino', quantidade: 0, unidade: 'a gosto' },
+      { id: 30, nome: 'ripe tomato', quantidade: 2, unidade: 'large units' },
+      { id: 31, nome: 'buffalo mozzarella', quantidade: 200, unidade: 'g' },
+      { id: 32, nome: 'fresh basil', quantidade: 1, unidade: 'small bunch' },
+      { id: 33, nome: 'pesto', quantidade: 2, unidade: 'tablespoons' },
+      { id: 34, nome: 'extra virgin olive oil', quantidade: 2, unidade: 'tablespoons' },
+      { id: 35, nome: 'flaky sea salt', quantidade: 0, unidade: 'to taste' },
+      { id: 36, nome: 'black pepper', quantidade: 0, unidade: 'to taste' },
     ],
     passos: [
-      { numero: 1, descricao: 'Corte os tomates em rodelas grossas (cerca de 1 cm) e a mussarela em fatias do mesmo tamanho.' },
-      { numero: 2, descricao: 'Em um prato grande, alterne as fatias de tomate e mussarela em camadas, intercalando folhas de manjericão.' },
-      { numero: 3, descricao: 'Distribua o pesto por cima em pequenas porções.' },
-      { numero: 4, descricao: 'Regue com o azeite, finalize com flor de sal e pimenta-do-reino moída na hora.' },
-      { numero: 5, descricao: 'Sirva imediatamente, em temperatura ambiente.' },
+      { numero: 1, descricao: 'Cut the tomatoes into thick slices (about 1 cm) and the mozzarella into slices the same size.' },
+      { numero: 2, descricao: 'On a large plate, alternate slices of tomato and mozzarella in layers, tucking in fresh basil leaves between them.' },
+      { numero: 3, descricao: 'Spoon small dollops of pesto on top.' },
+      { numero: 4, descricao: 'Drizzle with olive oil and finish with flaky salt and freshly cracked black pepper.' },
+      { numero: 5, descricao: 'Serve immediately, at room temperature.' },
     ],
   },
   1005: {
     id: 1005,
-    titulo: 'Curry Tailandês de Legumes',
+    titulo: 'Thai Vegetable Curry',
     imagemUrl: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=800&q=80',
     tempoPreparoMin: 35,
     porcoes: 4,
     resumo:
-      'Curry vermelho cremoso com leite de coco, abóbora, pimentão e brócolis. Aromático, picante na medida e reconfortante. Sirva com arroz jasmim ou basmati.',
+      'Creamy red curry with coconut milk, squash, bell pepper and broccoli. Aromatic, perfectly spiced and comforting. Serve with jasmine or basmati rice.',
     categorias: ['vegan', 'thai', 'gluten free'],
     ingredientes: [
-      { id: 40, nome: 'leite de coco', quantidade: 400, unidade: 'ml' },
-      { id: 41, nome: 'pasta de curry vermelho', quantidade: 3, unidade: 'colheres de sopa' },
-      { id: 42, nome: 'abóbora cabotiá', quantidade: 300, unidade: 'g' },
-      { id: 43, nome: 'brócolis', quantidade: 1, unidade: 'cabeça pequena' },
-      { id: 44, nome: 'pimentão vermelho', quantidade: 1, unidade: 'unidade' },
-      { id: 45, nome: 'gengibre fresco', quantidade: 1, unidade: 'colher de sopa ralado' },
-      { id: 46, nome: 'molho de soja (tamari)', quantidade: 2, unidade: 'colheres de sopa' },
-      { id: 47, nome: 'óleo de coco', quantidade: 1, unidade: 'colher de sopa' },
-      { id: 48, nome: 'coentro fresco', quantidade: 1, unidade: 'punhado' },
+      { id: 40, nome: 'coconut milk', quantidade: 400, unidade: 'ml' },
+      { id: 41, nome: 'red curry paste', quantidade: 3, unidade: 'tablespoons' },
+      { id: 42, nome: 'kabocha squash', quantidade: 300, unidade: 'g' },
+      { id: 43, nome: 'broccoli', quantidade: 1, unidade: 'small head' },
+      { id: 44, nome: 'red bell pepper', quantidade: 1, unidade: 'unit' },
+      { id: 45, nome: 'fresh ginger', quantidade: 1, unidade: 'tablespoon, grated' },
+      { id: 46, nome: 'soy sauce (tamari)', quantidade: 2, unidade: 'tablespoons' },
+      { id: 47, nome: 'coconut oil', quantidade: 1, unidade: 'tablespoon' },
+      { id: 48, nome: 'fresh cilantro', quantidade: 1, unidade: 'handful' },
     ],
     passos: [
-      { numero: 1, descricao: 'Descasque e corte a abóbora em cubos. Pique o brócolis em buquês e o pimentão em tiras.' },
-      { numero: 2, descricao: 'Em uma panela grande, aqueça o óleo de coco e refogue o gengibre por 30 segundos.' },
-      { numero: 3, descricao: 'Adicione a pasta de curry e mexa por 1 minuto até soltar o aroma.' },
-      { numero: 4, descricao: 'Despeje o leite de coco e mexa até obter um molho liso. Acrescente a abóbora e cozinhe por 10 minutos.' },
-      { numero: 5, descricao: 'Adicione o brócolis e o pimentão. Cozinhe por mais 8 minutos, até a abóbora ficar macia.' },
-      { numero: 6, descricao: 'Tempere com o molho de soja. Finalize com coentro picado e sirva com arroz.' },
+      { numero: 1, descricao: 'Peel and cube the squash. Cut the broccoli into florets and slice the bell pepper into strips.' },
+      { numero: 2, descricao: 'In a large pot, heat the coconut oil and sauté the ginger for 30 seconds.' },
+      { numero: 3, descricao: 'Add the curry paste and stir for 1 minute until fragrant.' },
+      { numero: 4, descricao: 'Pour in the coconut milk and whisk until smooth. Add the squash and cook for 10 minutes.' },
+      { numero: 5, descricao: 'Add the broccoli and bell pepper. Cook for another 8 minutes, until the squash is tender.' },
+      { numero: 6, descricao: 'Season with soy sauce. Finish with chopped cilantro and serve over rice.' },
     ],
   },
   1006: {
     id: 1006,
-    titulo: 'Tigela de Açaí com Frutas',
+    titulo: 'Acai Bowl with Fruits',
     imagemUrl: 'https://images.unsplash.com/photo-1494597564530-871f2b93ac55?w=800&q=80',
     tempoPreparoMin: 8,
     porcoes: 1,
     resumo:
-      'Açaí cremoso coberto com banana, morango, granola e um fio de mel. Lanche fresco e energético para qualquer hora do dia, especialmente depois do treino.',
+      'Creamy acai topped with banana, strawberry, granola and a drizzle of honey. A fresh, energizing snack for any time of day — especially after a workout.',
     categorias: ['vegan', 'breakfast', 'latin american'],
     ingredientes: [
-      { id: 50, nome: 'polpa de açaí congelada', quantidade: 200, unidade: 'g' },
-      { id: 51, nome: 'banana congelada', quantidade: 1, unidade: 'unidade' },
-      { id: 52, nome: 'morango', quantidade: 5, unidade: 'unidades' },
-      { id: 53, nome: 'granola', quantidade: 3, unidade: 'colheres de sopa' },
-      { id: 54, nome: 'mel', quantidade: 1, unidade: 'colher de sopa' },
-      { id: 55, nome: 'leite vegetal', quantidade: 50, unidade: 'ml' },
+      { id: 50, nome: 'frozen acai puree', quantidade: 200, unidade: 'g' },
+      { id: 51, nome: 'frozen banana', quantidade: 1, unidade: 'unit' },
+      { id: 52, nome: 'strawberry', quantidade: 5, unidade: 'units' },
+      { id: 53, nome: 'granola', quantidade: 3, unidade: 'tablespoons' },
+      { id: 54, nome: 'honey', quantidade: 1, unidade: 'tablespoon' },
+      { id: 55, nome: 'plant-based milk', quantidade: 50, unidade: 'ml' },
     ],
     passos: [
-      { numero: 1, descricao: 'No liquidificador, bata a polpa de açaí com a banana congelada e o leite vegetal até obter uma textura cremosa de sorvete.' },
-      { numero: 2, descricao: 'Transfira para uma tigela funda.' },
-      { numero: 3, descricao: 'Corte os morangos em fatias e disponha por cima junto com a granola.' },
-      { numero: 4, descricao: 'Finalize com um fio de mel e sirva imediatamente.' },
+      { numero: 1, descricao: 'In a blender, blend the acai puree with the frozen banana and the plant-based milk until you reach a creamy, ice-cream-like texture.' },
+      { numero: 2, descricao: 'Transfer to a deep bowl.' },
+      { numero: 3, descricao: 'Slice the strawberries and arrange them on top along with the granola.' },
+      { numero: 4, descricao: 'Finish with a drizzle of honey and serve immediately.' },
     ],
   },
 };

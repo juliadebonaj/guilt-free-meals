@@ -7,7 +7,7 @@ interface Sessao {
 }
 
 export default function ProtectedRoute() {
-  const [sessao] = useLocalStorage<Sessao | null>('guilt-free-sessao', null);
+  const [sessao] = useLocalStorage<Sessao | null>('guilt-free-session', null);
   if (!sessao?.logado) return <Navigate to="/login" replace />;
   return <Outlet />;
 }

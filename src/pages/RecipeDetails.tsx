@@ -27,7 +27,7 @@ export default function RecipeDetails() {
   useEffect(() => {
     const numId = Number(id);
     if (!id || Number.isNaN(numId)) {
-      setErro('ID de receita inválido.');
+      setErro('Invalid recipe ID.');
       setStatus('erro');
       return;
     }
@@ -68,10 +68,10 @@ export default function RecipeDetails() {
     return (
       <Container>
         <MensagemErro>
-          <RotuloErro>Algo deu errado</RotuloErro>
-          <TextoErro>{erro ?? 'Não foi possível carregar a receita.'}</TextoErro>
+          <RotuloErro>Something went wrong</RotuloErro>
+          <TextoErro>{erro ?? 'We could not load this recipe.'}</TextoErro>
           <Voltar type="button" onClick={() => navigate(-1)}>
-            ← Voltar
+            ← Back
           </Voltar>
         </MensagemErro>
       </Container>
@@ -110,7 +110,7 @@ export default function RecipeDetails() {
   return (
     <Container>
       <LinkVoltar type="button" onClick={() => navigate(-1)}>
-        ← Voltar
+        ← Back
       </LinkVoltar>
 
       <Hero>
@@ -119,23 +119,23 @@ export default function RecipeDetails() {
         </HeroImagem>
 
         <HeroConteudo>
-          <Rotulo>Receita</Rotulo>
+          <Rotulo>Recipe</Rotulo>
           <Titulo>{receita.titulo}</Titulo>
 
           <Meta>
             <MetaItem>
               <MetaValor>{receita.tempoPreparoMin}</MetaValor>
-              <MetaRotulo>minutos</MetaRotulo>
+              <MetaRotulo>minutes</MetaRotulo>
             </MetaItem>
             <Divisor />
             <MetaItem>
               <MetaValor>{receita.porcoes}</MetaValor>
-              <MetaRotulo>porções</MetaRotulo>
+              <MetaRotulo>servings</MetaRotulo>
             </MetaItem>
             <Divisor />
             <MetaItem>
               <MetaValor>{receita.ingredientes.length}</MetaValor>
-              <MetaRotulo>ingredientes</MetaRotulo>
+              <MetaRotulo>ingredients</MetaRotulo>
             </MetaItem>
           </Meta>
 
@@ -148,25 +148,25 @@ export default function RecipeDetails() {
           )}
 
           <Acoes>
-            <Tooltip texto={ehFavorita ? 'Remover dos favoritos' : 'Favoritar'}>
+            <Tooltip texto={ehFavorita ? 'Remove from favorites' : 'Add to favorites'}>
               <BotaoFavoritar
                 type="button"
                 onClick={alternarFavorita}
                 ativo={ehFavorita}
               >
                 <IconeColher preenchida={ehFavorita} />
-                <span>{ehFavorita ? 'Favoritada' : 'Favoritar'}</span>
+                <span>{ehFavorita ? 'Favorited' : 'Favorite'}</span>
               </BotaoFavoritar>
             </Tooltip>
 
-            <Tooltip texto={ehSalva ? 'Remover dos salvos' : 'Salvar para depois'}>
+            <Tooltip texto={ehSalva ? 'Remove from saved' : 'Save for later'}>
               <BotaoAcao
                 type="button"
                 onClick={alternarSalva}
                 ativo={ehSalva}
               >
                 <IconeSalvar preenchida={ehSalva} />
-                <span>{ehSalva ? 'Salva' : 'Salvar'}</span>
+                <span>{ehSalva ? 'Saved' : 'Save'}</span>
               </BotaoAcao>
             </Tooltip>
           </Acoes>
@@ -175,16 +175,16 @@ export default function RecipeDetails() {
 
       {receita.resumo && (
         <Secao>
-          <SecaoRotulo>Sobre</SecaoRotulo>
-          <SecaoTitulo>A <em>história</em> do prato</SecaoTitulo>
+          <SecaoRotulo>About</SecaoRotulo>
+          <SecaoTitulo>The <em>story</em> of this dish</SecaoTitulo>
           <Resumo>{receita.resumo}</Resumo>
         </Secao>
       )}
 
       <Conteudo>
         <ColunaIngredientes>
-          <SecaoRotulo>Lista</SecaoRotulo>
-          <SecaoTitulo>Ingredientes</SecaoTitulo>
+          <SecaoRotulo>List</SecaoRotulo>
+          <SecaoTitulo>Ingredients</SecaoTitulo>
           <ListaIngredientes>
             {receita.ingredientes.map((ing) => (
               <ItemIngrediente key={ing.id}>
@@ -206,8 +206,8 @@ export default function RecipeDetails() {
         </ColunaIngredientes>
 
         <ColunaPassos>
-          <SecaoRotulo>Modo de preparo</SecaoRotulo>
-          <SecaoTitulo>Passo a <em>passo</em></SecaoTitulo>
+          <SecaoRotulo>Instructions</SecaoRotulo>
+          <SecaoTitulo>Step by <em>step</em></SecaoTitulo>
           {receita.passos.length > 0 ? (
             <ListaPassos>
               {receita.passos.map((p) => (
@@ -219,7 +219,7 @@ export default function RecipeDetails() {
             </ListaPassos>
           ) : (
             <SemPassos>
-              Esta receita ainda não tem instruções passo a passo na nossa base.
+              This recipe doesn't have step-by-step instructions in our database yet.
             </SemPassos>
           )}
         </ColunaPassos>

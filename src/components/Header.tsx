@@ -13,7 +13,7 @@ interface Sessao {
 }
 
 export default function Header() {
-  const [sessao, setSessao] = useLocalStorage<Sessao | null>('guilt-free-sessao', null);
+  const [sessao, setSessao] = useLocalStorage<Sessao | null>('guilt-free-session', null);
   const [menuAberto, setMenuAberto] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -56,8 +56,8 @@ export default function Header() {
 
       <Direita>
         <Nav>
-          <ItemNav to="/" end>Início</ItemNav>
-          <ItemNav to="/busca">Buscar</ItemNav>
+          <ItemNav to="/" end>Home</ItemNav>
+          <ItemNav to="/busca">Search</ItemNav>
         </Nav>
 
         <PerfilWrapper ref={wrapperRef}>
@@ -77,14 +77,14 @@ export default function Header() {
                 </>
               )}
               <ItemDropdown role="menuitem" onClick={() => irPara('/favoritas')}>
-                Favoritas
+                Favorites
               </ItemDropdown>
               <ItemDropdown role="menuitem" onClick={() => irPara('/salvas')}>
-                Salvas
+                Saved
               </ItemDropdown>
               <Divisor />
               <ItemDropdown role="menuitem" onClick={sair}>
-                Sair
+                Sign out
               </ItemDropdown>
             </Dropdown>
           )}

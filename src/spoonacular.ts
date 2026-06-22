@@ -21,12 +21,25 @@ interface SpoonSearchResultItem {
   readyInMinutes?: number;
   servings?: number;
   dishTypes?: string[];
+  diets?: string[];
+  cuisines?: string[];
   summary?: string;
   extendedIngredients?: Array<{ name: string }>;
+  // Flags booleanas — fonte mais confiável de classificação dietética
+  vegetarian?: boolean;
+  vegan?: boolean;
+  glutenFree?: boolean;
+  dairyFree?: boolean;
+  lowFodmap?: boolean;
+  veryHealthy?: boolean;
+  ketogenic?: boolean;
 }
 
 interface SpoonComplexSearchResponse {
   results: SpoonSearchResultItem[];
+  offset: number;
+  number: number;
+  totalResults: number;
 }
 
 interface SpoonRecipeInfoResponse {
@@ -74,21 +87,67 @@ function encurtar(texto: string | undefined, max = 140): string | undefined {
 }
 
 // --- Mapeadores: resposta da API → tipos internos ---
+
+// A Spoonacular devolve alguns rótulos de dieta em formato diferente dos valores
+// que usamos no app (constantes em types.ts). Mapeia sinônimos pra normalizar.
+const DIET_ALIASES: Record<string, string> = {
+  'paleolithic': 'paleo',
+  'whole 30': 'whole30',
+  'pescatarian': 'pescetarian', // API usa 'pescatarian', app usa 'pescetarian'
+  // 'lacto ovo vegetarian' fica como está — a API agrupa lacto/ovo nessa única tag,
+  // e adicionamos esse valor à constante DIETAS de types.ts.
+};
+
+function normalizarDieta(d: string): string {
+  const key = d.trim().toLowerCase();
+  return DIET_ALIASES[key] ?? key;
+}
+
 function mapearResumo(item: SpoonSearchResultItem): ReceitaResumo {
   // Extrai os ingredientes primeiro de forma segura garantindo que seja um array válido
   const ingredientes = Array.isArray(item.extendedIngredients)
     ? item.extendedIngredients.map((ing) => ing.name)
     : [];
 
+  // Dietas: combinamos o que vier em `diets` (string[]) COM as flags booleanas.
+  // Algumas dietas só aparecem como flag; outras só em `diets`. Set deduplica.
+  const dietasDerivadas = new Set<string>(
+    (item.diets ?? []).map(normalizarDieta)
+  );
+  if (item.vegetarian)   dietasDerivadas.add('vegetarian');
+  if (item.vegan)        dietasDerivadas.add('vegan');
+  if (item.glutenFree)   dietasDerivadas.add('gluten free');
+  if (item.lowFodmap)    dietasDerivadas.add('low fodmap');
+  if (item.ketogenic)    dietasDerivadas.add('ketogenic');
+
+  // Cuisines da API vêm capitalizadas (`Cajun`, `Italian`); normalizamos pra lowercase
+  // pra casar com os valores das constantes em types.ts.
+  const cuisines = (item.cuisines ?? []).map((c) => c.trim().toLowerCase());
+
+  // dishTypes já vêm em lowercase, mas garantimos.
+  const mealTypes = (item.dishTypes ?? []).map((m) => m.trim().toLowerCase());
+
+  // Categorias para o card: tipos de prato + cozinhas + dietas (já normalizados)
+  const categorias = [
+    ...mealTypes,
+    ...cuisines,
+    ...Array.from(dietasDerivadas),
+  ];
+
   return {
     id: item.id,
     titulo: item.title || "",
     imagemUrl: item.image || "",
-    tempoPreparoMin: item.readyInMinutes ?? 30, // Fallback se vier zerado/null
+    tempoPreparoMin: item.readyInMinutes ?? 30,
     porcoes: item.servings ?? 2,
-    categorias: item.dishTypes ?? [],
+    categorias,
+    dietas: Array.from(dietasDerivadas),
+    cuisines,
+    mealTypes,
+    dairyFree: item.dairyFree ?? false,
+    glutenFree: item.glutenFree ?? false,
     resumo: encurtar(limparHtml(item.summary)) || "",
-    ingredientesPreview: ingredientes.slice(0, 4), // Corta com segurança sem quebrar o .slice()
+    ingredientesPreview: ingredientes.slice(0, 4),
   };
 }
 
@@ -127,11 +186,19 @@ export interface ParametrosBusca {
   cuisines?: string[];         // múltiplas
   mealTypes?: string[];        // múltiplos
   numero?: number;
+  offset?: number;             // pula os N primeiros resultados (paginação)
+}
+
+export interface ResultadoBusca {
+  receitas: ReceitaResumo[];
+  total: number;               // total de receitas disponíveis pros mesmos filtros
+  offset: number;
+  numero: number;
 }
 
 export async function buscarReceitas(
   params: ParametrosBusca
-): Promise<ReceitaResumo[]> {
+): Promise<ResultadoBusca> {
   // Instancia a URL limpa apontando para a rota de busca complexa
   const url = new URL(`${BASE_URL}/complexSearch`);
   url.searchParams.set('apiKey', API_KEY ?? '');
@@ -163,12 +230,18 @@ export async function buscarReceitas(
   url.searchParams.set('addRecipeInformation', 'true');
   url.searchParams.set('fillIngredients', 'true');
   url.searchParams.set('number', String(params.numero ?? 12));
+  url.searchParams.set('offset', String(params.offset ?? 0));
 
   const res = await fetch(url.toString());
   if (!res.ok) throw new Error(`Falha na busca: ${res.status}`);
 
   const data: SpoonComplexSearchResponse = await res.json();
-  return data.results.map(mapearResumo);
+  return {
+    receitas: data.results.map(mapearResumo),
+    total: data.totalResults ?? data.results.length,
+    offset: data.offset ?? 0,
+    numero: data.number ?? data.results.length,
+  };
 }
 
 export async function buscarReceitaPorId(id: number): Promise<Receita> {
@@ -182,4 +255,35 @@ export async function buscarReceitaPorId(id: number): Promise<Receita> {
 
   const data: SpoonRecipeInfoResponse = await res.json();
   return mapearReceitaCompleta(data);
+}
+
+// Pool inicial — chamada feita UMA vez por usuário (cacheada em localStorage).
+// Garante que toda receita do pool tenha pelo menos UMA dieta atribuída,
+// passando as 11 dietas em OR via separador "|" (semântica do Spoonacular).
+const TODAS_AS_DIETAS = [
+  'gluten free',
+  'ketogenic',
+  'vegetarian',
+  'lacto ovo vegetarian',
+  'vegan',
+  'pescetarian',
+  'paleo',
+  'primal',
+  'low fodmap',
+  'whole30',
+];
+
+export async function buscarPoolInicial(numero = 50): Promise<ReceitaResumo[]> {
+  const url = new URL(`${BASE_URL}/complexSearch`);
+  url.searchParams.set('apiKey', API_KEY ?? '');
+  url.searchParams.set('diet', TODAS_AS_DIETAS.join('|')); // OR
+  url.searchParams.set('addRecipeInformation', 'true');
+  url.searchParams.set('fillIngredients', 'true');
+  url.searchParams.set('number', String(numero));
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`Falha no pool inicial: ${res.status}`);
+
+  const data: SpoonComplexSearchResponse = await res.json();
+  return data.results.map(mapearResumo);
 }

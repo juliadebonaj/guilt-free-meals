@@ -7,14 +7,14 @@ export default function Favorites() {
   const { state } = useReceitas();
 
   if (state.favoritas.length === 0) {
-    return <Vazio>Você ainda não favoritou nenhuma receita.</Vazio>;
+    return <Vazio>You haven't favorited any recipes yet.</Vazio>;
   }
 
   return (
     <Wrapper>
       <Cabecalho>
-        <Rotulo>Colher de ouro</Rotulo>
-        <Titulo>suas receitas <em>favoritas</em></Titulo>
+        <Rotulo>Golden Spoon</Rotulo>
+        <Titulo>your <em>favorite</em> recipes</Titulo>
       </Cabecalho>
 
       <Grid>

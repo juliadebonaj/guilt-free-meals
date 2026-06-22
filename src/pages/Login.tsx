@@ -9,7 +9,7 @@ interface Sessao {
 }
 
 export default function Login() {
-  const [sessao, setSessao] = useLocalStorage<Sessao | null>('guilt-free-sessao', null);
+  const [sessao, setSessao] = useLocalStorage<Sessao | null>('guilt-free-session', null);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
@@ -20,7 +20,7 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !senha.trim()) {
-      setErro('Preencha e-mail e senha para continuar.');
+      setErro('Please fill in your email and password to continue.');
       return;
     }
     setSessao({ logado: true, email: email.trim() });
@@ -30,18 +30,18 @@ export default function Login() {
   return (
     <Pagina>
       <Cartao>
-        <Rotulo>Acesso</Rotulo>
+        <Rotulo>Sign In</Rotulo>
         <Titulo>
-          Bem-vindo <em>de volta</em>
+          Welcome <em>back</em>
         </Titulo>
 
         <Formulario onSubmit={handleSubmit} noValidate>
           <CampoWrapper>
-            <Label htmlFor="email">E-mail</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
-              placeholder="seu@email.com"
+              placeholder="your@email.com"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -52,7 +52,7 @@ export default function Login() {
           </CampoWrapper>
 
           <CampoWrapper>
-            <Label htmlFor="senha">Senha</Label>
+            <Label htmlFor="senha">Password</Label>
             <Input
               id="senha"
               type="password"
@@ -68,7 +68,7 @@ export default function Login() {
 
           {erro && <MensagemErro role="alert">{erro}</MensagemErro>}
 
-          <BotaoEntrar type="submit">Entrar</BotaoEntrar>
+          <BotaoEntrar type="submit">Sign In</BotaoEntrar>
         </Formulario>
       </Cartao>
     </Pagina>

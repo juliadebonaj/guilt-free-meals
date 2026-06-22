@@ -44,7 +44,7 @@ function CardReceita({ receita }: Props) {
         <img src={receita.imagemUrl} alt={receita.titulo} loading="lazy" />
 
         <FavoritarSlot>
-          <Tooltip texto={ehFavorita ? 'Remover dos favoritos' : 'Favoritar'}>
+          <Tooltip texto={ehFavorita ? 'Remove from favorites' : 'Add to favorites'}>
             <BotaoFavoritar
               type="button"
               onClick={alternarFavorita}
@@ -59,7 +59,7 @@ function CardReceita({ receita }: Props) {
       <Conteudo>
         <LinhaTitulo>
           <Titulo>{receita.titulo}</Titulo>
-          <Tooltip texto={ehSalva ? 'Remover dos salvos' : 'Salvar para depois'}>
+          <Tooltip texto={ehSalva ? 'Remove from saved' : 'Save for later'}>
             <BotaoSalvar
               type="button"
               onClick={alternarSalva}
@@ -73,7 +73,7 @@ function CardReceita({ receita }: Props) {
         <Meta>
           <span>{receita.tempoPreparoMin} min</span>
           <Bullet>·</Bullet>
-          <span>{receita.porcoes} porções</span>
+          <span>{receita.porcoes} servings</span>
         </Meta>
 
         {receita.resumo && <Resumo>{receita.resumo}</Resumo>}

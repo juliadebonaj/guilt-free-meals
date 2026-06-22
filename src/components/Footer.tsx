@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export default function Footer() {
   return (
     <Rodape>
-      <small>GuiltFreeMeal &middot; Receitas sem culpa</small>
+      <small>GuiltFreeMeal &middot; Guilt-Free Recipes</small>
     </Rodape>
   );
 }

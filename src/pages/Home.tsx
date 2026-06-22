@@ -1,7 +1,7 @@
 // Página inicial — hero com tipografia serifada de destaque + vitrine de receitas.
-// Mostra 3 receitas aleatórias buscadas da Spoonacular. Cache em localStorage
-// com TTL de 24h pra não gastar quota a cada visita. Fallback pros mocks se a
-// API falhar.
+// Mostra 3 receitas aleatórias do pool inicial. O pool fica permanentemente
+// em localStorage (compartilhado com /busca): se já está lá, não chamamos a API.
+// Fallback pros mocks se a primeira request falhar.
 
 import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
@@ -9,19 +9,11 @@ import { Link } from 'react-router-dom';
 import type { ReceitaResumo } from '../types';
 import CardReceita from '../components/CardReceita';
 import Spinner from '../components/Spinner';
-import { buscarReceitas } from '../spoonacular';
+import { buscarPoolInicial } from '../spoonacular';
+import { lerPoolCache, gravarPoolCache } from '../poolCache';
 import { RECEITAS_DESTAQUE } from '../mocks';
 
-const CACHE_KEY = '@GuiltFree:receitasHome';
-const CACHE_VERSAO = 1; // bump quando o shape de ReceitaResumo mudar
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
 const QUANTIDADE_HOME = 3;
-
-interface CacheEntry {
-  versao: number;
-  salvoEm: number;
-  receitas: ReceitaResumo[];
-}
 
 // Sorteia N itens aleatórios sem repetição (Fisher–Yates parcial)
 function escolherAleatorias<T>(lista: T[], n: number): T[] {
@@ -33,32 +25,6 @@ function escolherAleatorias<T>(lista: T[], n: number): T[] {
   return copia.slice(0, n);
 }
 
-function lerCache(): ReceitaResumo[] | null {
-  try {
-    const bruto = localStorage.getItem(CACHE_KEY);
-    if (!bruto) return null;
-    const entry: CacheEntry = JSON.parse(bruto);
-    if (entry.versao !== CACHE_VERSAO) return null;
-    if (Date.now() - entry.salvoEm > CACHE_TTL_MS) return null;
-    return entry.receitas;
-  } catch {
-    return null;
-  }
-}
-
-function gravarCache(receitas: ReceitaResumo[]) {
-  try {
-    const entry: CacheEntry = {
-      versao: CACHE_VERSAO,
-      salvoEm: Date.now(),
-      receitas,
-    };
-    localStorage.setItem(CACHE_KEY, JSON.stringify(entry));
-  } catch {
-    // localStorage cheio — falha silenciosa
-  }
-}
-
 export default function Home() {
   const [receitas, setReceitas] = useState<ReceitaResumo[]>([]);
   const [carregando, setCarregando] = useState(true);
@@ -67,8 +33,8 @@ export default function Home() {
     let cancelado = false;
 
     async function carregar() {
-      // 1. Tenta cache válido primeiro
-      const cache = lerCache();
+      // 1. Sempre prioriza o cache local
+      const cache = lerPoolCache();
       if (cache && cache.length >= QUANTIDADE_HOME) {
         if (cancelado) return;
         setReceitas(escolherAleatorias(cache, QUANTIDADE_HOME));
@@ -76,19 +42,18 @@ export default function Home() {
         return;
       }
 
-      // 2. Sem cache (ou expirado) → busca da API
+      // 2. Cache vazio → busca o pool inicial da API (1 única vez na vida do user)
       try {
-        const resultado = await buscarReceitas({ numero: 20 });
+        const pool = await buscarPoolInicial(100);
         if (cancelado) return;
-        if (resultado.length > 0) {
-          gravarCache(resultado);
-          setReceitas(escolherAleatorias(resultado, QUANTIDADE_HOME));
+        if (pool.length > 0) {
+          gravarPoolCache(pool);
+          setReceitas(escolherAleatorias(pool, QUANTIDADE_HOME));
         } else {
-          // API retornou vazio — usa mocks
           setReceitas(escolherAleatorias(RECEITAS_DESTAQUE, QUANTIDADE_HOME));
         }
       } catch {
-        // 3. API falhou (sem chave, quota, offline) → fallback nos mocks
+        // 3. API falhou (sem chave, quota, offline) → mocks
         if (cancelado) return;
         setReceitas(escolherAleatorias(RECEITAS_DESTAQUE, QUANTIDADE_HOME));
       } finally {
@@ -105,18 +70,18 @@ export default function Home() {
   return (
     <>
       <Hero>
-        <Subtitulo>Receitas sem culpa</Subtitulo>
-        <Titulo>Comer bem é<br /><em>um ato simples.</em></Titulo>
+        <Subtitulo>Guilt-Free Recipes</Subtitulo>
+        <Titulo>Eating well is<br /><em>a simple act.</em></Titulo>
         <Descricao>
-          Um catálogo curado de pratos saudáveis e elegantes para o seu dia a dia.
+          A curated catalog of healthy, elegant dishes for your everyday.
         </Descricao>
-        <CTA to="/busca">Explorar receitas</CTA>
+        <CTA to="/busca">Explore Recipes</CTA>
       </Hero>
 
       <Vitrine>
         <VitrineCabecalho>
-          <VitrineRotulo>Em destaque</VitrineRotulo>
-          <VitrineTitulo>Inspirações <em>para hoje</em></VitrineTitulo>
+          <VitrineRotulo>Featured</VitrineRotulo>
+          <VitrineTitulo>Inspiration <em>for today</em></VitrineTitulo>
         </VitrineCabecalho>
 
         {carregando ? (

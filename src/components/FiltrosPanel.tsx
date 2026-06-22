@@ -48,7 +48,7 @@ export default function FiltrosPanel() {
 
   const resumoFiltros =
     rotulosAtivos.length === 0
-      ? 'Nenhum filtro ativo'
+      ? 'No active filters'
       : rotulosAtivos.length <= 2
       ? rotulosAtivos.join(', ')
       : `${rotulosAtivos.slice(0, 2).join(', ')}, ...`;
@@ -61,7 +61,7 @@ export default function FiltrosPanel() {
           <Contagem>{resumoFiltros}</Contagem>
           {totalAtivos > 0 && (
             <ContagemNum>
-              {totalAtivos === 1 ? '1 filtro ativo' : `${totalAtivos} filtros ativos`}
+              {totalAtivos === 1 ? '1 active filter' : `${totalAtivos} active filters`}
             </ContagemNum>
           )}
         </TopoTexto>
@@ -70,17 +70,17 @@ export default function FiltrosPanel() {
           onClick={() => dispatch({ type: 'FILTROS_LIMPOS' })}
           disabled={totalAtivos === 0}
         >
-          Limpar tudo
+          Clear all
         </LimparBtn>
       </Topo>
 
       {/* --- Ingredientes --- */}
       <Secao>
-        <Legenda>Ingredientes</Legenda>
+        <Legenda>Ingredients</Legenda>
         <FormIngrediente onSubmit={adicionarIngrediente}>
           <Input
             type="text"
-            placeholder="ex: tomate, frango..."
+            placeholder="e.g. tomato, chicken..."
             value={novoIngrediente}
             onChange={(e) => setNovoIngrediente(e.target.value)}
           />
@@ -108,7 +108,7 @@ export default function FiltrosPanel() {
 
       {/* --- Dietas (chips múltiplos) --- */}
       <Secao>
-        <Legenda>Dieta</Legenda>
+        <Legenda>Diet</Legenda>
         <ChipsGrid>
           {DIETAS.map((d) => (
             <ChipToggle
@@ -127,7 +127,7 @@ export default function FiltrosPanel() {
 
       {/* --- Intolerâncias (chips múltiplos) --- */}
       <Secao>
-        <Legenda>Intolerâncias</Legenda>
+        <Legenda>Intolerances</Legenda>
         <ChipsGrid>
           {INTOLERANCIAS.map((i) => (
             <ChipToggle
@@ -147,8 +147,8 @@ export default function FiltrosPanel() {
       {/* --- Cuisine (radio) --- */}
       <Secao>
         <Legenda>
-          Cozinha
-          <Hint>(escolha apenas uma)</Hint>
+          Cuisine
+          <Hint>(choose only one)</Hint>
         </Legenda>
         <ChipsGrid>
           {CUISINES.map((c) => (
@@ -169,8 +169,8 @@ export default function FiltrosPanel() {
       {/* --- Meal type (radio) --- */}
       <Secao>
         <Legenda>
-          Tipo de refeição
-          <Hint>(escolha apenas um)</Hint>
+          Meal type
+          <Hint>(choose only one)</Hint>
         </Legenda>
         <ChipsGrid>
           {MEAL_TYPES.map((m) => (

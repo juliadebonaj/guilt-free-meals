@@ -6,14 +6,14 @@ export default function Salvas() {
   const { state } = useReceitas();
 
   if (state.salvas.length === 0) {
-    return <Vazio>Você ainda não salvou nenhuma receita para depois.</Vazio>;
+    return <Vazio>You haven't saved any recipes for later yet.</Vazio>;
   }
 
   return (
     <Wrapper>
       <Cabecalho>
-        <Rotulo>Salvas</Rotulo>
-        <Titulo><em>para</em> mais tarde</Titulo>
+        <Rotulo>Saved</Rotulo>
+        <Titulo><em>for</em> later</Titulo>
       </Cabecalho>
 
       <Grid>
