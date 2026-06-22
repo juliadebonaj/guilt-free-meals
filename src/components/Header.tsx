@@ -237,14 +237,16 @@ const ItemDropdown = styled.button`
 
 const EmailUsuario = styled.span`
   display: block;
-  font-family: ${({ theme }) => theme.fontes.corpo};
-  font-size: ${({ theme }) => theme.tamanhosFonte.xs};
-  color: ${({ theme }) => theme.cores.texto.muted};
+  font-family: ${({ theme }) => theme.fontes.titulo};
+  font-size: ${({ theme }) => theme.tamanhosFonte.md};
+  font-style: italic;
+  font-weight: ${({ theme }) => theme.pesoFonte.medium};
+  color: ${({ theme }) => theme.cores.sage[900]};
   padding: ${({ theme }) => theme.espacos.sm} ${({ theme }) => theme.espacos.lg};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 220px;
+  max-width: 240px;
 `;
 
 const Divisor = styled.hr`
