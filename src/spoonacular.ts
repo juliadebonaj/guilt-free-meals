@@ -1,15 +1,15 @@
 // Serviço de integração com a Spoonacular API.
 // Documentação: https://spoonacular.com/food-api/docs
-// IMPORTANTE: criar .env.local com VITE_SPOONACULAR_API_KEY=sua_chave_aqui
 
 import type { Receita, ReceitaResumo } from './types';
 
-const API_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
+// ⚠️ Mantenha sua chave de API colada aqui
+const API_KEY = '557de85a06184ce0b626fae66b9671a1'; 
 const BASE_URL = 'https://api.spoonacular.com/recipes';
 
 if (!API_KEY) {
   console.warn(
-    '[Spoonacular] VITE_SPOONACULAR_API_KEY não definida. Crie um arquivo .env.local na raiz.'
+    '[Spoonacular] API_KEY não definida. Insira a chave gerada no site da Spoonacular.'
   );
 }
 
@@ -75,16 +75,20 @@ function encurtar(texto: string | undefined, max = 140): string | undefined {
 
 // --- Mapeadores: resposta da API → tipos internos ---
 function mapearResumo(item: SpoonSearchResultItem): ReceitaResumo {
+  // Extrai os ingredientes primeiro de forma segura garantindo que seja um array válido
+  const ingredientes = Array.isArray(item.extendedIngredients)
+    ? item.extendedIngredients.map((ing) => ing.name)
+    : [];
+
   return {
     id: item.id,
-    titulo: item.title,
-    imagemUrl: item.image,
-    tempoPreparoMin: item.readyInMinutes ?? 0,
-    porcoes: item.servings ?? 0,
+    titulo: item.title || "",
+    imagemUrl: item.image || "",
+    tempoPreparoMin: item.readyInMinutes ?? 30, // Fallback se vier zerado/null
+    porcoes: item.servings ?? 2,
     categorias: item.dishTypes ?? [],
-    resumo: encurtar(limparHtml(item.summary)),
-    ingredientesPreview:
-      item.extendedIngredients?.map((ing) => ing.name).slice(0, 6) ?? [],
+    resumo: encurtar(limparHtml(item.summary)) || "",
+    ingredientesPreview: ingredientes.slice(0, 4), // Corta com segurança sem quebrar o .slice()
   };
 }
 
@@ -128,6 +132,7 @@ export interface ParametrosBusca {
 export async function buscarReceitas(
   params: ParametrosBusca
 ): Promise<ReceitaResumo[]> {
+  // Instancia a URL limpa apontando para a rota de busca complexa
   const url = new URL(`${BASE_URL}/complexSearch`);
   url.searchParams.set('apiKey', API_KEY ?? '');
 
@@ -137,26 +142,29 @@ export async function buscarReceitas(
     url.searchParams.set('includeIngredients', params.ingredientes.join(','));
   }
 
+  // Se o usuário selecionou dietas específicas, usamos elas. Se não, injetamos o padrão saudável do Guilt-Free.
   if (params.dietas && params.dietas.length > 0) {
-    // Spoonacular aceita várias dietas separadas por "|" (OR) ou "," (AND)
     url.searchParams.set('diet', params.dietas.join(','));
+  } else {
+    url.searchParams.set('diet', 'vegan,vegetarian');
   }
 
+  // Se o usuário selecionou intolerâncias específicas, usamos elas. Se não, injetamos o padrão sem glúten/laticínios do app.
   if (params.intolerancias && params.intolerancias.length > 0) {
     url.searchParams.set('intolerances', params.intolerancias.join(','));
+  } else {
+    url.searchParams.set('intolerances', 'gluten,dairy');
   }
 
   if (params.cuisines && params.cuisines.length > 0) {
-    // "," = AND (deve ser de todas), "|" = OR (qualquer uma) — usamos OR
     url.searchParams.set('cuisine', params.cuisines.join(','));
   }
 
   if (params.mealTypes && params.mealTypes.length > 0) {
-    // "type" só aceita um valor — pegamos o primeiro selecionado
     url.searchParams.set('type', params.mealTypes[0]);
   }
 
-  // Faz a API retornar resumo + ingredientes na mesma chamada
+  // Parâmetros cruciais para que a resposta venha com resumo e ingredientes para os cards
   url.searchParams.set('addRecipeInformation', 'true');
   url.searchParams.set('fillIngredients', 'true');
   url.searchParams.set('number', String(params.numero ?? 12));
@@ -169,6 +177,7 @@ export async function buscarReceitas(
 }
 
 export async function buscarReceitaPorId(id: number): Promise<Receita> {
+  // Instancia a URL limpa apontando para os detalhes da receita
   const url = new URL(`${BASE_URL}/${id}/information`);
   url.searchParams.set('apiKey', API_KEY ?? '');
   url.searchParams.set('includeNutrition', 'false');

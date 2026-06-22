@@ -2,75 +2,77 @@
 import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import { ReceitaResumo } from '../types';
 import CardReceita from '../components/CardReceita';
-
-// Caso sua API caia ou dê erro de limite diário, mantemos o mock como um plano B (fallback)
-import { RECEITAS_DESTAQUE } from '../mocks';
-import { ReceitaResumo } from '../types'; // <- Ajuste o caminho desse import se necessário
+// ... garanta que seus componentes de estilo (Hero, Titulo, etc.) estejam importados abaixo
 
 export default function Home() {
   const [receitas, setReceitas] = useState<ReceitaResumo[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  // 💡 ADICIONE ESSA LINHA AQUI PARA CORRIGIR O ERRO:
   const [erro, setErro] = useState<string | null>(null);
 
-  const MIN_RECEITAS_ACEITAVEL = 4;
-  const API_KEY = "fe9b369d70ec4b228ef58af6f5ca3bfc";
+  const API_KEY = "557de85a06184ce0b626fae66b9671a1";
 
   useEffect(() => {
     async function carregarReceitas() {
       try {
         setErro(null);
 
-        // 1. FORÇAR LIMPEZA DE CACHE ANTIGO (Pode remover essa linha após testar e funcionar!)
-        // Isso garante que o navegador jogue fora o JSON que estava quebrado
-        localStorage.removeItem('@GuiltFree:receitasHome');
-
-        // 2. Busca da API da Spoonacular com os parâmetros extras para trazer ingredientes e tempo real
-        const response = await fetch(
-          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&diet=vegan,vegetarian&intolerances=gluten,dairy&number=100&fillIngredients=true&addRecipeInformation=true`
-        );
-        
-        if (!response.ok) {
-          throw new Error("Não foi possível carregar as receitas da API.");
+        // 1. CHECA SE JÁ EXISTE CACHE SALVO
+        const cache = localStorage.getItem('@GuiltFree:receitasHome');
+        if (cache) {
+          const receitasSalvas = JSON.parse(cache);
+          if (Array.isArray(receitasSalvas) && receitasSalvas.length > 12) {
+            console.log("Pegando receitas direto do localStorage! Economizando API...");
+            setReceitas(receitasSalvas);
+            setLoading(false);
+            return; // 🛑 Para aqui e não faz o fetch se achar dados salvos!
+          }
         }
-        
+
+        // 2. SE NÃO TIVER CACHE, FAZ O FETCH SÓ UMA VEZ
+        console.log("Nenhum cache encontrado. Disparando fetch para a Spoonacular...");
+        setLoading(true);
+
+        const response = await fetch(
+          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&diet=vegan,vegetarian&intolerances=gluten,dairy&number=50&fillIngredients=true&addRecipeInformation=true`
+        );
+
+        console.log("Resposta da API recebida. Status:", response.status);
+
+        if (!response.ok) {
+          throw new Error(`Erro na API Spoonacular: Status ${response.status}`);
+        }
+
         const data = await response.json();
 
         if (data.results && data.results.length > 0) {
-          const receitasFormatadas: ReceitaResumo[] = data.results.map((item: any) => {
-            
-            // Pega os nomes dos ingredientes que a API retornou graças ao fillIngredients=true
-            const ingredientes = item.extendedIngredients?.map((ing: any) => ing.name) || [];
+          const recipesFormatadas: ReceitaResumo[] = data.results.map((item: any) => ({
+            id: item.id,
+            titulo: item.title || "",
+            imagemUrl: item.image || "",
+            tempoPreparoMin: item.readyInMinutes || 30,
+            porcoes: item.servings || 2,
+            resumo: item.summary ? item.summary.replace(/<[^>]*>/g, '').slice(0, 100) + '...' : "",
+            ingredientesPreview: item.extendedIngredients?.map((ing: any) => ing.name) || []
+          }));
 
-            return {
-              id: item.id,
-              titulo: item.title || "",
-              imagemUrl: item.image || "",
-              tempoPreparoMin: item.readyInMinutes || 30, 
-              porcoes: item.servings || 2,
-              // Remove tags HTML que a Spoonacular costuma mandar no summary
-              resumo: item.summary ? item.summary.replace(/<[^>]*>/g, '').slice(0, 100) + '...' : "", 
-              ingredientesPreview: ingredientes // <-- Aqui está o que o Card precisa!
-            };
-          });
-
-          setReceitas(receitasFormatadas);
-          localStorage.setItem('@GuiltFree:receitasHome', JSON.stringify(receitasFormatadas));
+          setReceitas(recipesFormatadas);
+          // Salva no cache para a próxima renderização não gastar pontos
+          localStorage.setItem('@GuiltFree:receitasHome', JSON.stringify(recipesFormatadas));
         } else {
-          setErro("Nenhuma receita encontrada.");
+          setErro("A API retornou uma lista vazia de receitas.");
         }
       } catch (error: any) {
-        console.error("Erro ao carregar as receitas:", error);
-        setErro(error.message || "Ocorreu um erro inesperado.");
+        console.error("Erro capturado no useEffect da Home:", error);
+        setErro(error.message || "Erro inesperado ao conectar com o serviço de receitas.");
       } finally {
         setLoading(false);
       }
     }
 
     carregarReceitas();
-  }, []);
+  }, []); // Mantém vazio para rodar apenas uma vez ao montar a tela
 
   return (
     <>
