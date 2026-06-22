@@ -49,8 +49,6 @@ function CardReceita({ receita }: Props) {
               type="button"
               onClick={alternarFavorita}
               ativo={ehFavorita}
-              aria-label={ehFavorita ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
-              aria-pressed={ehFavorita}
             >
               <IconeColher preenchida={ehFavorita} />
             </BotaoFavoritar>
@@ -66,8 +64,6 @@ function CardReceita({ receita }: Props) {
               type="button"
               onClick={alternarSalva}
               ativo={ehSalva}
-              aria-label={ehSalva ? 'Remover dos salvos' : 'Salvar para depois'}
-              aria-pressed={ehSalva}
             >
               <IconeSalvar preenchida={ehSalva} />
             </BotaoSalvar>

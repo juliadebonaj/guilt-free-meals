@@ -120,14 +120,20 @@ export function filtrarMocks(filtros: FiltrosBusca): ReceitaMock[] {
   return RECEITAS_DESTAQUE.filter((r) => {
     if (filtros.termo) {
       const t = filtros.termo.toLowerCase();
-      if (!r.titulo.toLowerCase().includes(t)) return false;
+      // Match apenas no início de alguma palavra do título
+      const palavras = r.titulo.toLowerCase().split(/\s+/);
+      if (!palavras.some((p) => p.startsWith(t))) return false;
     }
 
     if (filtros.ingredientes.length > 0) {
       const preview = r.ingredientesPreview.map((i) => i.toLowerCase());
-      const todos = filtros.ingredientes.every((ing) =>
-        preview.some((p) => p.includes(ing.toLowerCase()))
-      );
+      const todos = filtros.ingredientes.every((ing) => {
+        const alvo = ing.toLowerCase();
+        // Match no início de alguma palavra do ingrediente
+        return preview.some((p) =>
+          p.split(/\s+/).some((parte) => parte.startsWith(alvo))
+        );
+      });
       if (!todos) return false;
     }
 

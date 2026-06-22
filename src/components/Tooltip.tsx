@@ -1,8 +1,5 @@
 // Tooltip em CSS puro renderizado via Portal — escapa de qualquer overflow:hidden
 // nos ancestrais. Posicionamento calculado com getBoundingClientRect.
-//
-// Acessível: usa role="tooltip"; o aria-label do elemento envolvido continua
-// sendo a fonte para leitores de tela.
 
 import styled from '@emotion/styled';
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';

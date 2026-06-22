@@ -64,9 +64,6 @@ export default function Header() {
           <BotaoPerfil
             type="button"
             onClick={() => setMenuAberto((v) => !v)}
-            aria-haspopup="menu"
-            aria-expanded={menuAberto}
-            aria-label="Menu do perfil"
           >
             <IconePerfil />
           </BotaoPerfil>
@@ -109,7 +106,6 @@ function IconePerfil() {
       strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
-      aria-hidden="true"
     >
       <circle cx="12" cy="8" r="4" />
       <path d="M4 21 C4 16.5, 7.5 14, 12 14 C16.5 14, 20 16.5, 20 21" />

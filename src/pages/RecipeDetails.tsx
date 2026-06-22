@@ -139,8 +139,6 @@ export default function RecipeDetails() {
                 type="button"
                 onClick={alternarFavorita}
                 ativo={ehFavorita}
-                aria-pressed={ehFavorita}
-                aria-label={ehFavorita ? 'Remover dos favoritos' : 'Favoritar'}
               >
                 <IconeColher preenchida={ehFavorita} />
                 <span>{ehFavorita ? 'Favoritada' : 'Favoritar'}</span>
@@ -152,8 +150,6 @@ export default function RecipeDetails() {
                 type="button"
                 onClick={alternarSalva}
                 ativo={ehSalva}
-                aria-pressed={ehSalva}
-                aria-label={ehSalva ? 'Remover dos salvos' : 'Salvar para depois'}
               >
                 <IconeSalvar preenchida={ehSalva} />
                 <span>{ehSalva ? 'Salva' : 'Salvar'}</span>

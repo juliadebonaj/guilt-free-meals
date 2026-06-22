@@ -17,7 +17,6 @@ export default function IconeColher({ preenchida = false, size = 20 }: Props) {
       strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
-      aria-hidden="true"
     >
       {/* Concha da colher (oval no topo) */}
       <ellipse cx="12" cy="7" rx="4.5" ry="5.5" />

@@ -29,16 +29,14 @@ export default function Drawer({ aberto, onFechar, titulo, children }: Props) {
 
   return (
     <>
-      <Overlay aberto={aberto} onClick={onFechar} aria-hidden={!aberto} />
+      <Overlay aberto={aberto} onClick={onFechar} />
       <Painel
         aberto={aberto}
         role="dialog"
-        aria-modal="true"
-        aria-label={titulo ?? 'Painel lateral'}
       >
         <Topo>
           {titulo && <Titulo>{titulo}</Titulo>}
-          <BotaoFechar onClick={onFechar} aria-label="Fechar">
+          <BotaoFechar onClick={onFechar}>
             ×
           </BotaoFechar>
         </Topo>

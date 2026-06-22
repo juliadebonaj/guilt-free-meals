@@ -17,7 +17,6 @@ export default function IconeSalvar({ preenchida = false, size = 20 }: Props) {
       strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
-      aria-hidden="true"
     >
       {/* Bookmark: parte de cima reta, fundo com V invertido */}
       <path d="M5 4 L5 21 L12 16 L19 21 L19 4 Z" />
