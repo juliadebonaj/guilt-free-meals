@@ -1,15 +1,15 @@
 // Serviço de integração com a Spoonacular API.
 // Documentação: https://spoonacular.com/food-api/docs
+// IMPORTANTE: criar .env.local na raiz com VITE_SPOONACULAR_API_KEY=sua_chave_aqui
 
 import type { Receita, ReceitaResumo } from './types';
 
-// ⚠️ Mantenha sua chave de API colada aqui
-const API_KEY = '557de85a06184ce0b626fae66b9671a1'; 
+const API_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 const BASE_URL = 'https://api.spoonacular.com/recipes';
 
 if (!API_KEY) {
   console.warn(
-    '[Spoonacular] API_KEY não definida. Insira a chave gerada no site da Spoonacular.'
+    '[Spoonacular] VITE_SPOONACULAR_API_KEY não definida. Crie um arquivo .env.local na raiz.'
   );
 }
 
@@ -142,18 +142,13 @@ export async function buscarReceitas(
     url.searchParams.set('includeIngredients', params.ingredientes.join(','));
   }
 
-  // Se o usuário selecionou dietas específicas, usamos elas. Se não, injetamos o padrão saudável do Guilt-Free.
   if (params.dietas && params.dietas.length > 0) {
+    // Spoonacular aceita várias dietas separadas por "|" (OR) ou "," (AND)
     url.searchParams.set('diet', params.dietas.join(','));
-  } else {
-    url.searchParams.set('diet', 'vegan,vegetarian');
   }
 
-  // Se o usuário selecionou intolerâncias específicas, usamos elas. Se não, injetamos o padrão sem glúten/laticínios do app.
   if (params.intolerancias && params.intolerancias.length > 0) {
     url.searchParams.set('intolerances', params.intolerancias.join(','));
-  } else {
-    url.searchParams.set('intolerances', 'gluten,dairy');
   }
 
   if (params.cuisines && params.cuisines.length > 0) {

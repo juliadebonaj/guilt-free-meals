@@ -1,78 +1,106 @@
 // Página inicial — hero com tipografia serifada de destaque + vitrine de receitas.
+// Mostra 3 receitas aleatórias buscadas da Spoonacular. Cache em localStorage
+// com TTL de 24h pra não gastar quota a cada visita. Fallback pros mocks se a
+// API falhar.
+
 import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { ReceitaResumo } from '../types';
+import type { ReceitaResumo } from '../types';
 import CardReceita from '../components/CardReceita';
-// ... garanta que seus componentes de estilo (Hero, Titulo, etc.) estejam importados abaixo
+import Spinner from '../components/Spinner';
+import { buscarReceitas } from '../spoonacular';
+import { RECEITAS_DESTAQUE } from '../mocks';
+
+const CACHE_KEY = '@GuiltFree:receitasHome';
+const CACHE_VERSAO = 1; // bump quando o shape de ReceitaResumo mudar
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
+const QUANTIDADE_HOME = 3;
+
+interface CacheEntry {
+  versao: number;
+  salvoEm: number;
+  receitas: ReceitaResumo[];
+}
+
+// Sorteia N itens aleatórios sem repetição (Fisher–Yates parcial)
+function escolherAleatorias<T>(lista: T[], n: number): T[] {
+  const copia = [...lista];
+  for (let i = copia.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+  return copia.slice(0, n);
+}
+
+function lerCache(): ReceitaResumo[] | null {
+  try {
+    const bruto = localStorage.getItem(CACHE_KEY);
+    if (!bruto) return null;
+    const entry: CacheEntry = JSON.parse(bruto);
+    if (entry.versao !== CACHE_VERSAO) return null;
+    if (Date.now() - entry.salvoEm > CACHE_TTL_MS) return null;
+    return entry.receitas;
+  } catch {
+    return null;
+  }
+}
+
+function gravarCache(receitas: ReceitaResumo[]) {
+  try {
+    const entry: CacheEntry = {
+      versao: CACHE_VERSAO,
+      salvoEm: Date.now(),
+      receitas,
+    };
+    localStorage.setItem(CACHE_KEY, JSON.stringify(entry));
+  } catch {
+    // localStorage cheio — falha silenciosa
+  }
+}
 
 export default function Home() {
   const [receitas, setReceitas] = useState<ReceitaResumo[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [erro, setErro] = useState<string | null>(null);
-
-  const API_KEY = "557de85a06184ce0b626fae66b9671a1";
+  const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    async function carregarReceitas() {
+    let cancelado = false;
+
+    async function carregar() {
+      // 1. Tenta cache válido primeiro
+      const cache = lerCache();
+      if (cache && cache.length >= QUANTIDADE_HOME) {
+        if (cancelado) return;
+        setReceitas(escolherAleatorias(cache, QUANTIDADE_HOME));
+        setCarregando(false);
+        return;
+      }
+
+      // 2. Sem cache (ou expirado) → busca da API
       try {
-        setErro(null);
-
-        // 1. CHECA SE JÁ EXISTE CACHE SALVO
-        const cache = localStorage.getItem('@GuiltFree:receitasHome');
-        if (cache) {
-          const receitasSalvas = JSON.parse(cache);
-          if (Array.isArray(receitasSalvas) && receitasSalvas.length > 12) {
-            console.log("Pegando receitas direto do localStorage! Economizando API...");
-            setReceitas(receitasSalvas);
-            setLoading(false);
-            return; // 🛑 Para aqui e não faz o fetch se achar dados salvos!
-          }
-        }
-
-        // 2. SE NÃO TIVER CACHE, FAZ O FETCH SÓ UMA VEZ
-        console.log("Nenhum cache encontrado. Disparando fetch para a Spoonacular...");
-        setLoading(true);
-
-        const response = await fetch(
-          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&diet=vegan,vegetarian&intolerances=gluten,dairy&number=50&fillIngredients=true&addRecipeInformation=true`
-        );
-
-        console.log("Resposta da API recebida. Status:", response.status);
-
-        if (!response.ok) {
-          throw new Error(`Erro na API Spoonacular: Status ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (data.results && data.results.length > 0) {
-          const recipesFormatadas: ReceitaResumo[] = data.results.map((item: any) => ({
-            id: item.id,
-            titulo: item.title || "",
-            imagemUrl: item.image || "",
-            tempoPreparoMin: item.readyInMinutes || 30,
-            porcoes: item.servings || 2,
-            resumo: item.summary ? item.summary.replace(/<[^>]*>/g, '').slice(0, 100) + '...' : "",
-            ingredientesPreview: item.extendedIngredients?.map((ing: any) => ing.name) || []
-          }));
-
-          setReceitas(recipesFormatadas);
-          // Salva no cache para a próxima renderização não gastar pontos
-          localStorage.setItem('@GuiltFree:receitasHome', JSON.stringify(recipesFormatadas));
+        const resultado = await buscarReceitas({ numero: 20 });
+        if (cancelado) return;
+        if (resultado.length > 0) {
+          gravarCache(resultado);
+          setReceitas(escolherAleatorias(resultado, QUANTIDADE_HOME));
         } else {
-          setErro("A API retornou uma lista vazia de receitas.");
+          // API retornou vazio — usa mocks
+          setReceitas(escolherAleatorias(RECEITAS_DESTAQUE, QUANTIDADE_HOME));
         }
-      } catch (error: any) {
-        console.error("Erro capturado no useEffect da Home:", error);
-        setErro(error.message || "Erro inesperado ao conectar com o serviço de receitas.");
+      } catch {
+        // 3. API falhou (sem chave, quota, offline) → fallback nos mocks
+        if (cancelado) return;
+        setReceitas(escolherAleatorias(RECEITAS_DESTAQUE, QUANTIDADE_HOME));
       } finally {
-        setLoading(false);
+        if (!cancelado) setCarregando(false);
       }
     }
 
-    carregarReceitas();
-  }, []); // Mantém vazio para rodar apenas uma vez ao montar a tela
+    carregar();
+    return () => {
+      cancelado = true;
+    };
+  }, []);
 
   return (
     <>
@@ -91,23 +119,19 @@ export default function Home() {
           <VitrineTitulo>Inspirações <em>para hoje</em></VitrineTitulo>
         </VitrineCabecalho>
 
-        <Grid>
-          {/* 2. Se estiver buscando na API, você pode colocar uma mensagem elegante ou esqueleto de loading */}
-          {loading ? (
-            <LoadingTexto>Buscando receitas saudáveis...</LoadingTexto>
-          ) : (
-            // 3. Mapeia o estado dinâmico 'receitas' em vez do mock estático
-            receitas.map((r) => (
+        {carregando ? (
+          <Spinner />
+        ) : (
+          <Grid>
+            {receitas.map((r) => (
               <CardReceita key={r.id} receita={r} />
-            ))
-          )}
-        </Grid>
+            ))}
+          </Grid>
+        )}
       </Vitrine>
     </>
   );
 }
-
-// --- SEUS COMPONENTES ESTILIZADOS SEGUEM ABAIXO SEM ALTERAÇÕES DE LAYOUT ---
 
 const Hero = styled.section`
   max-width: 720px;
@@ -206,14 +230,4 @@ const Grid = styled.div`
   display: grid;
   gap: ${({ theme }) => theme.espacos.lg};
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-`;
-
-// Adicionado apenas um estilo básico para o texto de carregamento que combine com o tema da sua colega
-const LoadingTexto = styled.p`
-  grid-column: 1 / -1;
-  text-align: center;
-  font-family: ${({ theme }) => theme.fontes.corpo};
-  color: ${({ theme }) => theme.cores.texto.secundario};
-  font-size: ${({ theme }) => theme.tamanhosFonte.lg};
-  padding: ${({ theme }) => theme.espacos.xl} 0;
 `;

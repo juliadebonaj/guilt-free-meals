@@ -1,4 +1,6 @@
-// Página de detalhes da receita — lê dos mocks locais (sem chamada de API).
+// Página de detalhes da receita — consome a Spoonacular via buscarReceitaPorId.
+// Fallback: se a API falhar (sem chave, quota, offline) e o id existir nos
+// mocks (RECEITAS_COMPLETAS), mostra a versão local.
 // Layout: hero com imagem + título, coluna de ingredientes (esquerda)
 // e coluna de passos (direita, mais larga).
 
@@ -11,6 +13,7 @@ import Spinner from '../components/Spinner';
 import Tooltip from '../components/Tooltip';
 import { buscarReceitaCompletaMock } from '../mocks';
 import { useReceitas } from '../ReceitasContext';
+import { buscarReceitaPorId } from '../spoonacular';
 import type { Receita, ReceitaResumo, StatusRequisicao } from '../types';
 
 export default function RecipeDetails() {
@@ -29,23 +32,34 @@ export default function RecipeDetails() {
       return;
     }
 
+    let cancelado = false;
     setStatus('carregando');
     setErro(null);
 
-    // Pequeno delay artificial pra mostrar o spinner brevemente — opcional
-    const timer = setTimeout(() => {
-      const encontrada = buscarReceitaCompletaMock(numId);
-      if (!encontrada) {
-        setErro('Receita não encontrada.');
+    buscarReceitaPorId(numId)
+      .then((r) => {
+        if (cancelado) return;
+        setReceita(r);
+        setStatus('sucesso');
+        dispatch({ type: 'DETALHE_CARREGADO', payload: r });
+      })
+      .catch((e: Error) => {
+        if (cancelado) return;
+        // Fallback: tenta nos mocks (útil pros 6 ids da home e quando a API falha)
+        const mockada = buscarReceitaCompletaMock(numId);
+        if (mockada) {
+          setReceita(mockada);
+          setStatus('sucesso');
+          dispatch({ type: 'DETALHE_CARREGADO', payload: mockada });
+          return;
+        }
+        setErro(e.message);
         setStatus('erro');
-        return;
-      }
-      setReceita(encontrada);
-      setStatus('sucesso');
-      dispatch({ type: 'DETALHE_CARREGADO', payload: encontrada });
-    }, 150);
+      });
 
-    return () => clearTimeout(timer);
+    return () => {
+      cancelado = true;
+    };
   }, [id, dispatch]);
 
   if (status === 'carregando' || status === 'idle') return <Spinner />;
