@@ -1,5 +1,3 @@
-// Página "About" — placeholder para ser preenchido pelo time de conteúdo.
-
 import styled from '@emotion/styled';
 
 export default function Sobre() {
@@ -16,41 +14,48 @@ export default function Sobre() {
         <Secao>
           <SecaoTitulo>Our Story</SecaoTitulo>
           <Paragrafo>
-            [Placeholder — share the origin of GuiltFreeMeal here: who started it, when, and why.
-            What inspired the project? What problem does it solve for people who want to eat well
-            without obsessing over restrictions?]
+            GuiltFreeMeal was built during the React module of Start Coding — a program by SAP and Ada Tech.
+            Four students set out to build something useful: a place to find recipes that are
+            good for you without making food feel like a chore.
           </Paragrafo>
         </Secao>
 
         <Secao>
           <SecaoTitulo>Our Mission</SecaoTitulo>
           <Paragrafo>
-            [Placeholder — describe the mission in one or two sentences. Example: "We believe
-            healthy eating should feel effortless and enjoyable, not like a punishment."]
+            Make healthy eating approachable. No guilt, no obsession — just good food.
           </Paragrafo>
         </Secao>
 
         <Secao>
           <SecaoTitulo>What We Believe</SecaoTitulo>
           <Lista>
-            <li>[Placeholder — belief or value #1]</li>
-            <li>[Placeholder — belief or value #2]</li>
-            <li>[Placeholder — belief or value #3]</li>
+            <li>Food should nourish, not stress you out.</li>
+            <li>Eating well doesn't require perfection.</li>
+            <li>Simple recipes are often the best ones.</li>
           </Lista>
         </Secao>
 
         <Secao>
           <SecaoTitulo>The Team</SecaoTitulo>
           <Paragrafo>
-            [Placeholder — introduce the people behind GuiltFreeMeal. Names, roles, a short bio
-            for each member.]
+            Built by Bruno Inácio, Jéssica Gaspar, Júlia de Bona, and Victória Branco —
+            student interns from the Start Coding program.
           </Paragrafo>
         </Secao>
 
         <Secao>
           <SecaoTitulo>Contact</SecaoTitulo>
           <Paragrafo>
-            [Placeholder — add contact information or a link to a contact form here.]
+            Have a suggestion or found a bug? Reach us on our{' '}
+            <ExternalLink
+              href="https://github.com/juliadebonaj/guilt-free-meals"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub repository
+            </ExternalLink>
+            .
           </Paragrafo>
         </Secao>
       </Conteudo>
@@ -139,5 +144,15 @@ const Lista = styled.ul`
       left: 0;
       color: ${({ theme }) => theme.cores.sage[900]};
     }
+  }
+`;
+
+const ExternalLink = styled.a`
+  color: ${({ theme }) => theme.cores.sage[900]};
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: ${({ theme }) => theme.cores.texto.primario};
   }
 `;
