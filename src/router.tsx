@@ -15,6 +15,14 @@ export const router = createBrowserRouter([
         lazy: async () => ({ Component: (await import('./pages/Login')).default }),
       },
       {
+        path: 'sobre',
+        lazy: async () => ({ Component: (await import('./pages/Sobre')).default }),
+      },
+      {
+        path: 'privacidade',
+        lazy: async () => ({ Component: (await import('./pages/PrivacyPolicy')).default }),
+      },
+      {
         element: <ProtectedRoute />,
         children: [
           {
