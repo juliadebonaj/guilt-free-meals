@@ -13,157 +13,77 @@ export default function PrivacyPolicy() {
         <Secao>
           <SecaoTitulo>Introduction</SecaoTitulo>
           <Paragrafo>
-            GuiltFreeMeal is committed to protecting your privacy.
-            This policy explains what information is collected when you use our application,
-            how it is used, and what controls you have over it. By using GuiltFreeMeal, you
-            agree to the practices described here.
+            GuiltFreeMeal respects your privacy. This page explains what we store and how
+            we use it. By using the app, you agree to what's described here.
           </Paragrafo>
         </Secao>
 
         <Secao>
           <SecaoTitulo>Data We Collect</SecaoTitulo>
           <Paragrafo>
-            GuiltFreeMeal does not operate a backend server and does not transmit personal
-            data to our own infrastructure. The only information we handle is stored
-            directly in your browser:
+            We don't run a backend. Everything stays in your browser's localStorage:
           </Paragrafo>
           <Lista>
             <li>
-              <strong>Session data</strong> — your email address and login state, kept in
-              localStorage under the key <code>guilt-free-session</code> so you remain
-              signed in between visits.
+              <strong>Session</strong> — your email and login state, so you stay signed in.
             </li>
             <li>
-              <strong>Recipe cache</strong> — a local copy of recipe results fetched from
-              the Spoonacular API, stored under the key <code>@GuiltFree:initialPool</code>{' '}
-              to avoid unnecessary repeated requests.
+              <strong>Recipe cache</strong> — results from the Spoonacular API, to avoid
+              repeated requests.
             </li>
             <li>
-              <strong>Favorites and saved recipes</strong> — the IDs of recipes you mark
-              as favorite or save for later, kept in localStorage so your selections
-              persist across sessions.
+              <strong>Favorites and saved recipes</strong> — the IDs you choose to keep.
             </li>
           </Lista>
           <Paragrafo>
-            We do not collect names, payment information, location data, or any data beyond
-            what is listed above.
-          </Paragrafo>
-        </Secao>
-
-        <Secao>
-          <SecaoTitulo>How We Use Your Data</SecaoTitulo>
-          <Paragrafo>
-            The data stored in your browser is used solely to make the application work as
-            expected: keeping you signed in, displaying your personal recipe collections,
-            and reducing load times by caching API results locally. We do not use your data
-            for advertising, profiling, or analytics.
+            No names, no payment data, no location, no tracking.
           </Paragrafo>
         </Secao>
 
         <Secao>
           <SecaoTitulo>Third-Party Services</SecaoTitulo>
           <Paragrafo>
-            GuiltFreeMeal retrieves recipe data from the{' '}
-            <strong>Spoonacular API</strong> (spoonacular.com). When you load recipes or
-            perform a search, your request is sent directly to Spoonacular's servers. This
-            includes standard network metadata such as your IP address, which is handled
-            according to{' '}
+            Recipes come from the{' '}
+            <strong>Spoonacular API</strong>. When you load or search recipes, your request
+            goes directly to their servers (including standard metadata like your IP). See{' '}
             <ExternalLink
               href="https://spoonacular.com/food-api/terms"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Spoonacular's own Terms and Privacy Policy
+              Spoonacular's terms and privacy policy
             </ExternalLink>
-            . We do not share any additional personal information with Spoonacular.
-          </Paragrafo>
-          <Paragrafo>
-            No other third-party services (analytics, advertising networks, or social
-            trackers) are integrated into this application.
+            . No analytics, ads, or social trackers are used.
           </Paragrafo>
         </Secao>
 
         <Secao>
-          <SecaoTitulo>Data Storage &amp; Security</SecaoTitulo>
+          <SecaoTitulo>Your Data, Your Control</SecaoTitulo>
           <Paragrafo>
-            All data described in this policy is stored exclusively in your own browser's
-            localStorage. It never leaves your device to our servers. Because of this, the
-            security of this data depends on the security of your device and browser.
-            We recommend keeping your browser up to date and avoiding the use of shared or
-            public computers to access your account.
-          </Paragrafo>
-          <Paragrafo>
-            Clearing your browser's site data for GuiltFreeMeal will permanently remove all
-            locally stored information, including your session, favorites, and recipe cache.
+            Since everything is local, you're always in control. Clearing site data in
+            your browser removes your session, favorites, and cache instantly. We don't
+            use cookies — just localStorage.
           </Paragrafo>
         </Secao>
 
         <Secao>
-          <SecaoTitulo>Your Rights</SecaoTitulo>
+          <SecaoTitulo>Changes</SecaoTitulo>
           <Paragrafo>
-            Because all data is stored locally on your device, you are always in full
-            control of it. You can:
-          </Paragrafo>
-          <Lista>
-            <li>
-              <strong>Access your data</strong> — inspect the contents of localStorage in
-              your browser's developer tools at any time.
-            </li>
-            <li>
-              <strong>Delete your data</strong> — clear site data for GuiltFreeMeal in your
-              browser settings to remove everything instantly.
-            </li>
-            <li>
-              <strong>Correct your data</strong> — update your email or preferences by
-              signing out and signing back in with updated information.
-            </li>
-          </Lista>
-          <Paragrafo>
-            If you have questions about your data or wish to exercise any rights under
-            applicable law (including GDPR or LGPD), please contact us at the address
-            listed at the end of this policy.
-          </Paragrafo>
-        </Secao>
-
-        <Secao>
-          <SecaoTitulo>Local Storage &amp; Cookies</SecaoTitulo>
-          <Paragrafo>
-            GuiltFreeMeal does not use cookies. We use the browser's localStorage API
-            exclusively. The data stored there persists until you manually clear it or
-            uninstall the application. No tracking pixels or fingerprinting scripts are
-            used.
-          </Paragrafo>
-        </Secao>
-
-        <Secao>
-          <SecaoTitulo>Changes to This Policy</SecaoTitulo>
-          <Paragrafo>
-            We may update this policy from time to time. When we do, we will revise the
-            "Last updated" date at the top of this page. We encourage you to review this
-            policy periodically. Continued use of GuiltFreeMeal after any changes
-            constitutes acceptance of the updated policy.
+            We may update this policy occasionally. The "Last updated" date above will
+            reflect any changes.
           </Paragrafo>
         </Secao>
 
         <Secao>
           <SecaoTitulo>Contact</SecaoTitulo>
           <Paragrafo>
-            If you have any questions or concerns about this Privacy Policy, feel free to
-            reach out via our GitHub repository. You can open a{' '}
+            Questions? Open an{' '}
             <ExternalLink
               href="https://github.com/juliadebonaj/guilt-free-meals/issues"
               target="_blank"
               rel="noopener noreferrer"
             >
-              new issue
-            </ExternalLink>
-            {' '}or start a conversation in the{' '}
-            <ExternalLink
-              href="https://github.com/juliadebonaj/guilt-free-meals/discussions"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Discussions tab
+              issue on GitHub
             </ExternalLink>
             .
           </Paragrafo>

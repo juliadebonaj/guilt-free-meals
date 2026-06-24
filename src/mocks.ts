@@ -244,17 +244,25 @@ export function filtrarPool(
 
     // Intolerâncias: exclui se receita contém qualquer um dos proibidos.
     // Para "dairy" e "gluten" usamos as flags booleanas da API quando disponíveis
-    // (mais confiáveis que keywords). Para as demais, heurística via palavras-chave.
+    // (mais confiáveis que keywords). Para as demais, heurística via palavras-chave
+    // sobre a lista completa de ingredientes + título da receita.
     if (filtros.intolerancias.length > 0) {
+      // Fonte para keyword matching: lista completa de ingredientes (quando disponível)
+      // + título. Cai no preview se não houver lista completa (mocks antigos).
+      const fontesParaBusca = [
+        ...(r.ingredientesParaFiltro ?? previewLower),
+        r.titulo.toLowerCase(),
+      ];
+
       const temProibido = filtros.intolerancias.some((int) => {
         const intLower = int.toLowerCase();
         // Flags diretas da API têm precedência
         if (intLower === 'dairy' && r.dairyFree === true) return false;
         if (intLower === 'gluten' && r.glutenFree === true) return false;
-        // Heurística: detectar a palavra-chave nos primeiros ingredientes
+        // Heurística: detectar palavra-chave nos ingredientes completos / título
         const keywords = INTOLERANCIA_KEYWORDS[intLower] ?? [];
-        return previewLower.some((p) =>
-          keywords.some((kw) => p.includes(kw))
+        return fontesParaBusca.some((texto) =>
+          keywords.some((kw) => texto.includes(kw))
         );
       });
       if (temProibido) return false;

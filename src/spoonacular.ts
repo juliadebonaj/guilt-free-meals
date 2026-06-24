@@ -148,7 +148,14 @@ function mapearResumo(item: SpoonSearchResultItem): ReceitaResumo {
     glutenFree: item.glutenFree ?? false,
     resumo: encurtar(limparHtml(item.summary)) || "",
     ingredientesPreview: ingredientes.slice(0, 4),
+    ingredientesParaFiltro: ingredentesParaFiltro(ingredientes),
   };
+}
+
+// Lista completa de ingredientes em lowercase para filtragem client-side.
+// Não é exibida na UI — usada apenas pela heurística de intolerâncias.
+function ingredentesParaFiltro(ingredientes: string[]): string[] {
+  return ingredientes.map((i) => i.toLowerCase());
 }
 
 function mapearReceitaCompleta(data: SpoonRecipeInfoResponse): Receita {

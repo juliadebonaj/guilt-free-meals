@@ -53,22 +53,52 @@ VITE_SPOONACULAR_API_KEY=sua_chave_aqui
 
 ## Screenshots
 
-<!-- Adicione as imagens em /public ou /docs e atualize os caminhos abaixo -->
+### Login
+![Login](./screenshots/1%20-%20Login.png)
 
 ### Home
-![Home](./docs/screenshots/home.png)
+![Home](./screenshots/2.1%20-%20Home%20.png)
+![Home](./screenshots/2.2%20-%20Home.png)
 
 ### Busca
-![Busca](./docs/screenshots/busca.png)
+Sem filtros:
 
-### Detalhes da receita
-![Detalhes da receita](./docs/screenshots/detalhes.png)
+![Busca sem filtros](./screenshots/3.1%20-%20SearchNotFiltered.png)
+![Busca sem filtros](./screenshots/3.2%20-%20SearchNotFiltered.png)
+![Busca sem filtros](./screenshots/3.3%20-%20SearchNotFiltered.png)
 
-### Favoritos
-![Favoritos](./docs/screenshots/favoritos.png)
+Com filtros aplicados:
+
+![Filtrada por ingrediente](./screenshots/3.4%20-%20FilteredByIngredient.png)
+![Filtrada por dieta](./screenshots/3.5%20-%20FilteredByDiet.png)
+![Filtrada por dieta e intolerância](./screenshots/3.6%20-%20FilteredByDietAndIntolerance.png)
+![Filtrada por cozinha e tipo](./screenshots/3.7%20-%20FilteredByCuisineAndType.png)
+
+Busca por nome:
+
+![Busca por nome](./screenshots/3.8%20-%20SearchByName.png)
+
+### Detalhes da receita (Golden Spoon)
+![Detalhes da receita](./screenshots/4%20-%20GoldenSpoon.png)
+
+### Salvar para depois
+![Salvar para depois](./screenshots/5%20-%20SaveForLater.png)
+
+### Favoritos e salvos
+![Marcar como favorito](./screenshots/Y.1%20-%20ToBeFave.png)
+![Marcar para salvar](./screenshots/Y.2%20-%20ToBeSaved.png)
+![Favoritos e salvos](./screenshots/Y.3%20-%20SavedFave.png)
+
+### Perfil
+![Ícone de perfil](./screenshots/X%20-%20Profile%20Icon.png)
 
 ### Sobre
-![Sobre](./docs/screenshots/sobre.png)
+![Sobre](./screenshots/6.1%20-%20About.png)
+![Sobre](./screenshots/6.2%20-%20About.png)
+
+### Política de Privacidade
+![Política de Privacidade](./screenshots/7.1%20-%20PrivacyPolicy.png)
+![Política de Privacidade](./screenshots/7.2%20-%20PrivacyPolicy.png)
 
 ## Time
 

@@ -5,7 +5,7 @@
 import type { ReceitaResumo } from './types';
 
 const CACHE_KEY = '@GuiltFree:initialPool';
-const CACHE_VERSAO = 5; // bumpa quando o shape de ReceitaResumo muda — invalida caches antigos
+const CACHE_VERSAO = 6; // bumpa quando o shape de ReceitaResumo muda — invalida caches antigos
 
 interface CacheEntry {
   versao: number;

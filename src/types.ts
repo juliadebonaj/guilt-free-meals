@@ -36,7 +36,9 @@ export interface ReceitaResumo {
   porcoes: number;
   categorias: string[];
   resumo?: string;                // descrição curta (texto puro, já sem HTML)
-  ingredientesPreview: string[];  // só nomes, pra renderizar como chips
+  ingredientesPreview: string[];  // só nomes, pra renderizar como chips (curto, exibição)
+  ingredientesParaFiltro?: string[]; // lista completa de ingredientes (lowercase), usada
+                                     // apenas em filtros client-side. Não exibida na UI.
   // Campos derivados pra filtragem client-side eficiente (sem string match).
   // Opcionais pra compatibilidade com mocks antigos.
   dietas?: string[];              // valores tipo "vegan", "gluten free"
