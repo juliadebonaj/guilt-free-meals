@@ -61,23 +61,29 @@ VITE_SPOONACULAR_API_KEY=sua_chave_aqui
 ![Home](./screenshots/2.2%20-%20Home.png)
 
 ### Busca
+#### Busca Sem Filtros
 ![Busca sem filtros](./screenshots/3.1%20-%20SearchNotFiltered.png)
 ![Busca sem filtros](./screenshots/3.2%20-%20SearchNotFiltered.png)
 ![Busca sem filtros](./screenshots/3.3%20-%20SearchNotFiltered.png)
+#### Busca Filtrada Por Ingrediente
 ![Filtrada por ingrediente](./screenshots/3.4%20-%20FilteredByIngredient.png)
+#### Busca Filtrada Por Dieta
 ![Filtrada por dieta](./screenshots/3.5%20-%20FilteredByDiet.png)
+#### Busca Filtrada Por Dieta E Intolerância
 ![Filtrada por dieta e intolerância](./screenshots/3.6%20-%20FilteredByDietAndIntolerance.png)
+#### Busca Filtrada Por Cozinha E Tipo
 ![Filtrada por cozinha e tipo](./screenshots/3.7%20-%20FilteredByCuisineAndType.png)
+#### Busca Simples Por Nome
 ![Busca por nome](./screenshots/3.8%20-%20SearchByName.png)
 
-### Detalhes de Receita
+### Detalhes De Receita
 ![Detalhes da receita](./screenshots/4.1%20-%20RecipeDetails.png)
 ![Detalhes da receita](./screenshots/4.2%20-%20RecipeDetails.png)
 
 ### Favoritos (Colher de Ouro)
 ![Favoritos](./screenshots/5.1%20-%20GoldenSpoon.png)
 
-### Salvos para Depois
+### Salvos Para Depois
 ![Salvos para depois](./screenshots/5.2%20-%20SaveForLater.png)
 
 ### Sobre
